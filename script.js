@@ -65,6 +65,7 @@ function spawnNewEnemy() {
   
   currentEnemy = {
     ...baseEnemy,
+    maxHealth: Math.floor(baseEnemy.health * floorMultiplier), // Store original health
     health: Math.floor(baseEnemy.health * floorMultiplier),
     attack: Math.floor(baseEnemy.attack * floorMultiplier),
     gold: Math.floor(baseEnemy.gold * floorMultiplier),
@@ -109,7 +110,7 @@ function enemyAttack() {
 }
 
 function handleEnemyDefeat() {
-  const xpGained = currentEnemy.health;
+  const xpGained = currentEnemy.maxHealth; // Use stored max health instead of current health
   character.xp += xpGained;
   character.gold += currentEnemy.gold;
   character.herbs += currentEnemy.herbs;
@@ -123,7 +124,7 @@ function handleEnemyDefeat() {
   spawnNewEnemy();
 }
 
-// Progression System
+// Progression System (Fixed XP Carryover)
 function checkLevelUp() {
   while (character.xp >= character.xpNeeded) {
     const excessXP = character.xp - character.xpNeeded;
@@ -150,7 +151,7 @@ function updateDungeonDifficulty() {
   }
 }
 
-// Class System
+// Class System (Fixed Skill Follow-up)
 function initializeClassSkills(className) {
   const skillsDiv = document.getElementById("skills");
   skillsDiv.innerHTML = `<h3>Skills</h3>`;
@@ -252,7 +253,7 @@ document.getElementById("buy-sword").addEventListener("click", () => {
   }
 });
 
-// Save/Load System
+// Save/Load System (With Error Handling)
 document.getElementById("save-button").addEventListener("click", () => {
   const saveData = {
     character: character,
@@ -278,7 +279,7 @@ document.getElementById("load-button").addEventListener("click", () => {
   }
 });
 
-// Achievements
+// Achievements (Fixed Initial State)
 function checkAchievements() {
   achievements.forEach(achievement => {
     if (!character.achievements.includes(achievement.id) && 
@@ -297,7 +298,7 @@ function checkAchievements() {
   });
 }
 
-// UI Functions
+// UI Functions (Added XP Display)
 function updateUI() {
   // Character Stats
   characterClassSpan.textContent = character.class || "None";
