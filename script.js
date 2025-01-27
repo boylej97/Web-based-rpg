@@ -92,7 +92,12 @@ function attack() {
 document.getElementById("attack-button").addEventListener("click", attack);
 
 function enemyAttack() {
-  const damage = Math.floor(currentEnemy.attack * (Math.random() * 0.3 + 0.7));
+  const baseDamage = currentEnemy.attack;
+  const armorReduction = character.equipment.armor?.defense || 0;
+  const damage = Math.max(
+    Math.floor(baseDamage * (Math.random() * 0.3 + 0.7)) - armorReduction,
+    1
+  );
   character.health -= damage;
   gameLog(`${currentEnemy.name} attacked you for ${damage} damage!`);
 
@@ -104,12 +109,13 @@ function enemyAttack() {
 }
 
 function handleEnemyDefeat() {
-  character.xp += currentEnemy.health;
+  const xpGained = currentEnemy.health;
+  character.xp += xpGained;
   character.gold += currentEnemy.gold;
   character.herbs += currentEnemy.herbs;
   character.enemiesDefeated++;
   
-  gameLog(`Defeated ${currentEnemy.name}! Gained ${currentEnemy.health} XP, ${currentEnemy.gold} gold, ${currentEnemy.herbs} herbs.`);
+  gameLog(`Defeated ${currentEnemy.name}! Gained ${xpGained} XP, ${currentEnemy.gold} gold, ${currentEnemy.herbs} herbs.`);
   
   checkLevelUp();
   checkAchievements();
@@ -119,16 +125,20 @@ function handleEnemyDefeat() {
 
 // Progression System
 function checkLevelUp() {
-  if (character.xp >= character.xpNeeded) {
+  while (character.xp >= character.xpNeeded) {
+    const excessXP = character.xp - character.xpNeeded;
+    
     character.level++;
     character.maxHealth += 20;
     character.maxMana += 10;
     character.attack += 5;
     character.health = character.maxHealth;
     character.mana = character.maxMana;
-    character.xp = 0;
+    character.xp = excessXP;
     character.xpNeeded = Math.floor(character.xpNeeded * 1.5);
+    
     gameLog(`Level up! Now level ${character.level}!`);
+    updateUI();
   }
 }
 
@@ -151,7 +161,8 @@ function initializeClassSkills(className) {
     rogue: [{ name: "Backstab", cost: 15, action: backstab }]
   };
 
-  skills[className].forEach(skill => {
+  const classSkills = skills[className] || [];
+  classSkills.forEach(skill => {
     const button = document.createElement("button");
     button.textContent = `${skill.name} (${skill.cost} Mana)`;
     button.addEventListener("click", () => useSkill(skill));
@@ -163,7 +174,13 @@ function useSkill(skill) {
   if (character.mana >= skill.cost) {
     character.mana -= skill.cost;
     skill.action();
-    enemyAttack();
+    
+    if (currentEnemy.health > 0) {
+      enemyAttack();
+    } else {
+      handleEnemyDefeat();
+    }
+    
     updateUI();
   } else {
     gameLog("Not enough mana!");
@@ -246,14 +263,18 @@ document.getElementById("save-button").addEventListener("click", () => {
 });
 
 document.getElementById("load-button").addEventListener("click", () => {
-  const savedData = JSON.parse(localStorage.getItem("rpgSave"));
-  if (savedData) {
-    Object.assign(character, savedData.character);
-    currentEnemy = savedData.currentEnemy;
-    gameLog("Game loaded!");
-    updateUI();
-  } else {
-    gameLog("No save file found!");
+  try {
+    const savedData = JSON.parse(localStorage.getItem("rpgSave"));
+    if (savedData?.character && savedData?.currentEnemy) {
+      Object.assign(character, savedData.character);
+      currentEnemy = savedData.currentEnemy;
+      gameLog("Game loaded!");
+      updateUI();
+    } else {
+      gameLog("No save file found!");
+    }
+  } catch (e) {
+    gameLog("Corrupted save file!");
   }
 });
 
@@ -264,6 +285,12 @@ function checkAchievements() {
         achievement.check(character)) {
       character.achievements.push(achievement.id);
       const achievementList = document.getElementById("achievement-list");
+      
+      // Clear "None yet!" on first achievement
+      if (!achievementList.querySelector('.achievement-badge')) {
+        achievementList.innerHTML = '';
+      }
+      
       achievementList.innerHTML += `<div class="achievement-badge">${achievement.name}</div>`;
       gameLog(`Achievement Unlocked: ${achievement.name}!`);
     }
@@ -278,6 +305,10 @@ function updateUI() {
   characterHealthSpan.textContent = character.health;
   characterManaSpan.textContent = character.mana;
   characterGoldSpan.textContent = character.gold;
+  
+  // XP Display
+  document.getElementById("xp-bar").textContent = 
+    `${character.xp}/${character.xpNeeded} XP`;
   
   // Equipment
   document.getElementById("equipped-weapon").textContent = 
