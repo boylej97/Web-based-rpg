@@ -1,4 +1,3 @@
-// script.js
 // Game Data
 const character = {
   class: null,
@@ -24,6 +23,12 @@ const enemies = [
   { name: "Goblin", health: 50, attack: 5, herbs: 1, gold: 5 },
   { name: "Orc", health: 80, attack: 10, herbs: 2, gold: 10 },
   { name: "Dragon", health: 150, attack: 20, herbs: 5, gold: 50 }
+];
+
+const achievements = [
+  { id: 1, name: "First Blood", check: c => c.enemiesDefeated >= 1 },
+  { id: 2, name: "Novice Warrior", check: c => c.enemiesDefeated >= 5 },
+  { id: 3, name: "Master Adventurer", check: c => c.level >= 5 }
 ];
 
 let currentEnemy = null;
@@ -55,13 +60,24 @@ document.querySelectorAll('.class-button').forEach(button => {
 
 // Core Game Functions
 function spawnNewEnemy() {
-  currentEnemy = { ...enemies[Math.floor(Math.random() * enemies.length)] };
-  gameLog(`A wild ${currentEnemy.name} appears!`);
+  const floorMultiplier = 1 + (character.dungeonFloor * 0.15);
+  const baseEnemy = {...enemies[Math.floor(Math.random() * enemies.length)]};
+  
+  currentEnemy = {
+    ...baseEnemy,
+    health: Math.floor(baseEnemy.health * floorMultiplier),
+    attack: Math.floor(baseEnemy.attack * floorMultiplier),
+    gold: Math.floor(baseEnemy.gold * floorMultiplier),
+    herbs: Math.floor(baseEnemy.herbs * floorMultiplier)
+  };
+  
+  updateUI();
+  gameLog(`A ${currentEnemy.name} appears!`);
 }
 
 function attack() {
   const baseDamage = character.attack + (character.equipment.weapon?.attack || 0);
-  const damage = Math.floor(baseDamage * (Math.random() * 0.3 + 0.85)); // 85-115% damage
+  const damage = Math.floor(baseDamage * (Math.random() * 0.3 + 0.85));
   currentEnemy.health -= damage;
   gameLog(`You attacked ${currentEnemy.name} for ${damage} damage!`);
 
@@ -73,8 +89,10 @@ function attack() {
   updateUI();
 }
 
+document.getElementById("attack-button").addEventListener("click", attack);
+
 function enemyAttack() {
-  const damage = Math.floor(currentEnemy.attack * (Math.random() * 0.3 + 0.7)); // 70-100% damage
+  const damage = Math.floor(currentEnemy.attack * (Math.random() * 0.3 + 0.7));
   character.health -= damage;
   gameLog(`${currentEnemy.name} attacked you for ${damage} damage!`);
 
@@ -91,10 +109,11 @@ function handleEnemyDefeat() {
   character.herbs += currentEnemy.herbs;
   character.enemiesDefeated++;
   
-  gameLog(`You defeated ${currentEnemy.name}! Gained ${currentEnemy.health} XP, ${currentEnemy.gold} gold, ${currentEnemy.herbs} herbs.`);
+  gameLog(`Defeated ${currentEnemy.name}! Gained ${currentEnemy.health} XP, ${currentEnemy.gold} gold, ${currentEnemy.herbs} herbs.`);
   
   checkLevelUp();
   checkAchievements();
+  updateDungeonDifficulty();
   spawnNewEnemy();
 }
 
@@ -109,7 +128,15 @@ function checkLevelUp() {
     character.mana = character.maxMana;
     character.xp = 0;
     character.xpNeeded = Math.floor(character.xpNeeded * 1.5);
-    gameLog(`Level up! You're now level ${character.level}!`);
+    gameLog(`Level up! Now level ${character.level}!`);
+  }
+}
+
+function updateDungeonDifficulty() {
+  if (character.enemiesDefeated % 5 === 0) {
+    character.dungeonFloor++;
+    gameLog(`Advanced to dungeon floor ${character.dungeonFloor}!`);
+    document.getElementById("dungeon-floor").textContent = character.dungeonFloor;
   }
 }
 
@@ -230,30 +257,88 @@ document.getElementById("load-button").addEventListener("click", () => {
   }
 });
 
+// Achievements
+function checkAchievements() {
+  achievements.forEach(achievement => {
+    if (!character.achievements.includes(achievement.id) && 
+        achievement.check(character)) {
+      character.achievements.push(achievement.id);
+      const achievementList = document.getElementById("achievement-list");
+      achievementList.innerHTML += `<div class="achievement-badge">${achievement.name}</div>`;
+      gameLog(`Achievement Unlocked: ${achievement.name}!`);
+    }
+  });
+}
+
 // UI Functions
 function updateUI() {
+  // Character Stats
   characterClassSpan.textContent = character.class || "None";
   characterLevelSpan.textContent = character.level;
   characterHealthSpan.textContent = character.health;
   characterManaSpan.textContent = character.mana;
   characterGoldSpan.textContent = character.gold;
+  
+  // Equipment
+  document.getElementById("equipped-weapon").textContent = 
+    character.equipment.weapon?.name || "None";
+  document.getElementById("equipped-armor").textContent = 
+    character.equipment.armor?.name || "None";
+  
+  // Enemy Stats
   enemyNameSpan.textContent = currentEnemy?.name || "None";
   enemyHealthSpan.textContent = currentEnemy?.health || "0";
+  
+  // Inventory
   potionsCountSpan.textContent = character.potions;
   herbCountSpan.textContent = character.herbs;
+  
+  // Dungeon
+  document.getElementById("dungeon-floor").textContent = character.dungeonFloor;
 }
 
 function gameLog(message) {
   const logEntry = document.createElement("p");
-  logEntry.textContent = message;
+  logEntry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
   gameLogDiv.appendChild(logEntry);
   gameLogDiv.scrollTop = gameLogDiv.scrollHeight;
 }
 
+// Rest Function
+document.getElementById("rest-button").addEventListener("click", () => {
+  character.health = Math.min(character.health + 20, character.maxHealth);
+  character.mana = Math.min(character.mana + 10, character.maxMana);
+  gameLog("Restored 20 HP and 10 MP!");
+  updateUI();
+});
+
+// Reset Game
 function resetGame() {
-  character.health = character.maxHealth;
-  character.enemiesDefeated = 0;
-  spawnNewEnemy();
+  Object.assign(character, {
+    class: null,
+    level: 1,
+    health: 100,
+    maxHealth: 100,
+    mana: 50,
+    maxMana: 50,
+    attack: 10,
+    xp: 0,
+    xpNeeded: 100,
+    gold: 0,
+    potions: 0,
+    herbs: 0,
+    dungeonFloor: 1,
+    equipment: { weapon: null, armor: null },
+    statusEffects: [],
+    achievements: [],
+    enemiesDefeated: 0
+  });
+  
+  classSelectionDiv.style.display = 'block';
+  currentEnemy = null;
+  document.getElementById("achievement-list").innerHTML = "None yet!";
+  updateUI();
+  gameLog("Game reset. Choose your class again.");
 }
 
 // Initialize
