@@ -8,91 +8,112 @@
 </head>
 <body>
   <div class="game-container">
-    <!-- Class Selection -->
-    <div id="class-selection">
-      <h3>Choose Your Class</h3>
-      <button class="class-button" data-class="warrior">Warrior</button>
-      <button class="class-button" data-class="mage">Mage</button>
-      <button class="class-button" data-class="rogue">Rogue</button>
-    </div>
+    <!-- Game Header -->
+    <header class="game-header">
+      <h1>Boyleplays RPG</h1>
+      <div id="save-load">
+        <button id="save-button">Save Game</button>
+        <button id="load-button">Load Game</button>
+      </div>
+    </header>
 
-    <!-- Character Stats -->
-    <div id="character-stats">
-      <h2>Character</h2>
-      <p>Class: <span id="character-class">None</span></p>
-      <p>Level: <span id="character-level">1</span></p>
-      <p>Health: <span id="character-health">100</span>/<span id="character-max-health">100</span></p>
-      <p>Mana: <span id="character-mana">50</span>/<span id="character-max-mana">50</span></p>
-      <p>XP: <span id="character-xp">0</span>/<span id="character-xp-needed">100</span></p>
-      <p>Gold: <span id="character-gold">0</span></p>
-      <p>Attack: <span id="character-attack">10</span></p>
-    </div>
+    <!-- Character Creation -->
+    <section id="class-selection" class="game-section">
+      <h2>Choose Your Class</h2>
+      <div class="class-buttons">
+        <button class="class-button" data-class="warrior">Warrior</button>
+        <button class="class-button" data-class="mage">Mage</button>
+        <button class="class-button" data-class="rogue">Rogue</button>
+      </div>
+    </section>
 
-    <!-- Equipment -->
-    <div id="equipment">
-      <h3>Equipment</h3>
-      <p>Weapon: <span id="equipped-weapon">None</span></p>
-      <p>Armor: <span id="equipped-armor">None</span></p>
-    </div>
+    <!-- Main Game Layout -->
+    <main class="game-main">
+      <!-- Player Section -->
+      <section class="player-panel">
+        <article class="character-card">
+          <h2>Character Stats</h2>
+          <div class="stat-grid">
+            <p>Class: <span id="character-class">None</span></p>
+            <p>Level: <span id="character-level">1</span></p>
+            <p>Health: <span id="character-health">100</span>/<span id="character-max-health">100</span></p>
+            <p>Mana: <span id="character-mana">50</span>/<span id="character-max-mana">50</span></p>
+            <p>XP: <span id="xp-bar">0/100</span></p>
+            <p>Gold: <span id="character-gold">0</span></p>
+            <p>Attack: <span id="character-attack">10</span></p>
+          </div>
+        </article>
 
-    <!-- Dungeon Info -->
-    <div id="dungeon-info">
-      <h3>Dungeon</h3>
-      <p>Floor: <span id="dungeon-floor">1</span></p>
-      <button id="enter-dungeon">Enter Dungeon</button>
-    </div>
+        <article class="equipment-card">
+          <h3>Equipment</h3>
+          <p>Weapon: <span id="equipped-weapon">None</span></p>
+          <p>Armor: <span id="equipped-armor">None</span></p>
+        </article>
 
-    <!-- Enemy Stats -->
-    <div id="enemy-stats">
-      <h2>Enemy</h2>
-      <p>Name: <span id="enemy-name">None</span></p>
-      <p>Health: <span id="enemy-health">0</span></p>
-      <p>Attack: <span id="enemy-attack">0</span></p>
-    </div>
+        <article class="dungeon-card">
+          <h3>Dungeon Info</h3>
+          <p>Floor: <span id="dungeon-floor">1</span></p>
+          <button id="enter-dungeon">Enter Dungeon</button>
+        </article>
+      </section>
 
-    <!-- Inventory & Crafting -->
-    <div id="inventory">
-      <h3>Inventory</h3>
-      <p>Potions: <span id="potions-count">0</span></p>
-      <p>Herbs: <span id="herb-count">0</span></p>
-      <button id="use-potion">Use Potion</button>
-      <button id="craft-potion">Craft Potion (3 Herbs)</button>
-    </div>
+      <!-- Combat Section -->
+      <section class="combat-panel">
+        <article class="enemy-card">
+          <h2>Current Enemy</h2>
+          <div class="stat-grid">
+            <p>Name: <span id="enemy-name">None</span></p>
+            <p>Health: <span id="enemy-health">0</span></p>
+            <p>Attack: <span id="enemy-attack">0</span></p>
+          </div>
+        </article>
 
-    <!-- Skills -->
-    <div id="skills">
-      <h3>Skills</h3>
-    </div>
+        <article class="action-card">
+          <h3>Combat Actions</h3>
+          <div class="action-buttons">
+            <button id="attack-button">Basic Attack</button>
+            <button id="rest-button">Rest</button>
+          </div>
+          <div id="skills">
+            <h4>Class Skills</h4>
+          </div>
+        </article>
+      </section>
 
-    <!-- Shop -->
-    <div id="shop">
-      <h3>Shop</h3>
-      <button id="buy-potion">Buy Potion (10 Gold)</button>
-      <button id="buy-sword">Buy Sword (50 Gold)</button>
-    </div>
+      <!-- Game Systems -->
+      <section class="systems-panel">
+        <article class="inventory-card">
+          <h3>Inventory</h3>
+          <p>Potions: <span id="potions-count">0</span></p>
+          <p>Herbs: <span id="herb-count">0</span></p>
+          <div class="inventory-actions">
+            <button id="use-potion">Use Potion</button>
+            <button id="craft-potion">Craft Potion (3 Herbs)</button>
+          </div>
+        </article>
 
-    <!-- Achievements -->
-    <div id="achievements">
-      <h3>Achievements</h3>
-      <div id="achievement-list">None yet!</div>
-    </div>
+        <article class="shop-card">
+          <h3>Shop</h3>
+          <div class="shop-items">
+            <button id="buy-potion">Buy Potion (10 Gold)</button>
+            <button id="buy-sword">Buy Sword (50 Gold)</button>
+          </div>
+        </article>
 
-    <!-- Actions -->
-    <div id="actions">
-      <button id="attack-button">Attack</button>
-      <button id="rest-button">Rest</button>
-    </div>
-
-    <!-- Save/Load -->
-    <div id="save-load">
-      <button id="save-button">Save Game</button>
-      <button id="load-button">Load Game</button>
-    </div>
+        <article class="achievements-card">
+          <h3>Achievements</h3>
+          <div id="achievement-list">None yet!</div>
+        </article>
+      </section>
+    </main>
 
     <!-- Game Log -->
-    <div id="game-log">
-      <p>Welcome to the RPG! Choose your class to begin.</p>
-    </div>
+    <section class="game-log">
+      <h3>Game Log</h3>
+      <div id="game-log">
+        <p>Welcome to the RPG! Choose your class to begin.</p>
+      </div>
+    </section>
   </div>
   <script src="script.js"></script>
 </body>
