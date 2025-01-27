@@ -1,8 +1,18 @@
 /* styles.css */
+:root {
+  --primary-dark: #2c3e50;
+  --secondary-dark: #34495e;
+  --accent-yellow: #f1c40f;
+  --accent-green: #2ecc71;
+  --danger-red: #e74c3c;
+  --magic-purple: #9b59b6;
+  --text-light: #ecf0f1;
+}
+
 body {
   font-family: 'Arial', sans-serif;
-  background-color: #2c3e50;
-  color: #ecf0f1;
+  background-color: var(--primary-dark);
+  color: var(--text-light);
   margin: 0;
   padding: 20px;
   display: flex;
@@ -12,16 +22,20 @@ body {
 }
 
 .game-container {
-  background-color: #34495e;
+  background-color: var(--secondary-dark);
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
   width: 100%;
   max-width: 800px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
 }
 
 /* Class Selection */
 #class-selection {
+  grid-column: 1 / -1;
   text-align: center;
   margin-bottom: 20px;
 }
@@ -31,40 +45,55 @@ body {
   margin: 5px;
   font-size: 16px;
   cursor: pointer;
-  background-color: #3498db;
   border: none;
   border-radius: 5px;
   color: white;
-  transition: background-color 0.3s;
+  transition: transform 0.2s, filter 0.2s;
+}
+
+.class-button[data-class="warrior"] { 
+  background-color: #c0392b;
+}
+.class-button[data-class="mage"] { 
+  background-color: #2980b9;
+}
+.class-button[data-class="rogue"] { 
+  background-color: #27ae60;
 }
 
 .class-button:hover {
-  background-color: #2980b9;
+  transform: scale(1.05);
+  filter: brightness(1.1);
 }
 
-/* Character/Enemy Stats */
+/* Stats Containers */
 #character-stats, #enemy-stats {
-  background-color: #2c3e50;
+  background-color: var(--primary-dark);
   padding: 15px;
   border-radius: 5px;
   margin-bottom: 20px;
+  border: 2px solid rgba(255,255,255,0.1);
 }
 
 #character-stats h2, #enemy-stats h2 {
   margin-top: 0;
-  color: #f1c40f;
+  color: var(--accent-yellow);
+  border-bottom: 2px solid currentColor;
+  padding-bottom: 5px;
 }
 
 /* Inventory, Skills, Shop */
-#inventory, #skills, #shop, #dungeon-info, #equipment, #achievements {
-  background-color: #2c3e50;
+#inventory, #skills, #shop, 
+#dungeon-info, #equipment, #achievements {
+  background-color: var(--primary-dark);
   padding: 15px;
   border-radius: 5px;
   margin-bottom: 20px;
 }
 
-#inventory h3, #skills h3, #shop h3, #dungeon-info h3, #equipment h3, #achievements h3 {
-  color: #2ecc71;
+#inventory h3, #skills h3, #shop h3, 
+#dungeon-info h3, #equipment h3, #achievements h3 {
+  color: var(--accent-green);
   margin-top: 0;
 }
 
@@ -74,64 +103,108 @@ button {
   margin: 5px;
   font-size: 14px;
   cursor: pointer;
-  background-color: #27ae60;
+  background-color: var(--accent-green);
   border: none;
   border-radius: 5px;
   color: white;
-  transition: background-color 0.3s;
+  transition: filter 0.2s;
 }
 
 button:hover {
-  background-color: #219a52;
+  filter: brightness(1.1);
 }
 
 #attack-button {
-  background-color: #e74c3c;
-}
-
-#attack-button:hover {
-  background-color: #c0392b;
+  background-color: var(--danger-red);
 }
 
 #rest-button {
-  background-color: #9b59b6;
+  background-color: var(--magic-purple);
 }
 
-#rest-button:hover {
-  background-color: #8e44ad;
+#use-potion {
+  background-color: #3498db;
+}
+
+#craft-potion {
+  background-color: #e67e22;
 }
 
 /* Game Log */
 #game-log {
   height: 150px;
   overflow-y: auto;
-  background-color: #2c3e50;
+  background-color: var(--primary-dark);
   padding: 15px;
   border-radius: 5px;
   margin-top: 20px;
+  border: 1px solid rgba(255,255,255,0.1);
+  font-family: 'Courier New', monospace;
 }
 
 #game-log p {
   margin: 5px 0;
   font-size: 14px;
+  padding: 8px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+#game-log p:last-child {
+  border-bottom: none;
 }
 
 /* Status Effects */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
 .status-effect {
-  color: #e74c3c;
+  color: var(--danger-red);
   font-weight: bold;
+  animation: pulse 1s infinite;
+  display: inline-block;
 }
 
 /* Achievements */
-#achievement-list {
-  color: #f1c40f;
-  font-size: 14px;
+.achievement-badge {
+  display: inline-block;
+  padding: 5px 10px;
+  margin: 5px;
+  background: linear-gradient(45deg, #f1c40f, #e67e22);
+  border-radius: 15px;
+  font-size: 0.9em;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
+
+/* Progress Bars */
+.stat-bar {
+  height: 10px;
+  background-color: var(--primary-dark);
+  border-radius: 5px;
+  overflow: hidden;
+  margin: 5px 0;
+}
+
+.stat-bar-fill {
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.health-bar { background-color: var(--danger-red); }
+.mana-bar { background-color: #3498db; }
 
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
   .game-container {
+    grid-template-columns: 1fr;
     padding: 10px;
+  }
+
+  #character-stats, #enemy-stats, 
+  #inventory, #skills, #shop {
+    grid-column: 1 / -1;
   }
 
   button {
@@ -141,5 +214,15 @@ button:hover {
 
   #game-log {
     height: 120px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 10px;
+  }
+  
+  .game-container {
+    border-radius: 5px;
   }
 }
