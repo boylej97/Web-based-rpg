@@ -1,0 +1,145 @@
+/* styles.css */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #2c3e50;
+  color: #ecf0f1;
+  margin: 0;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.game-container {
+  background-color: #34495e;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  width: 100%;
+  max-width: 800px;
+}
+
+/* Class Selection */
+#class-selection {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.class-button {
+  padding: 10px 20px;
+  margin: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #3498db;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  transition: background-color 0.3s;
+}
+
+.class-button:hover {
+  background-color: #2980b9;
+}
+
+/* Character/Enemy Stats */
+#character-stats, #enemy-stats {
+  background-color: #2c3e50;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+#character-stats h2, #enemy-stats h2 {
+  margin-top: 0;
+  color: #f1c40f;
+}
+
+/* Inventory, Skills, Shop */
+#inventory, #skills, #shop, #dungeon-info, #equipment, #achievements {
+  background-color: #2c3e50;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+#inventory h3, #skills h3, #shop h3, #dungeon-info h3, #equipment h3, #achievements h3 {
+  color: #2ecc71;
+  margin-top: 0;
+}
+
+/* Buttons */
+button {
+  padding: 10px 20px;
+  margin: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  background-color: #27ae60;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #219a52;
+}
+
+#attack-button {
+  background-color: #e74c3c;
+}
+
+#attack-button:hover {
+  background-color: #c0392b;
+}
+
+#rest-button {
+  background-color: #9b59b6;
+}
+
+#rest-button:hover {
+  background-color: #8e44ad;
+}
+
+/* Game Log */
+#game-log {
+  height: 150px;
+  overflow-y: auto;
+  background-color: #2c3e50;
+  padding: 15px;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+#game-log p {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+/* Status Effects */
+.status-effect {
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+/* Achievements */
+#achievement-list {
+  color: #f1c40f;
+  font-size: 14px;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .game-container {
+    padding: 10px;
+  }
+
+  button {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+
+  #game-log {
+    height: 120px;
+  }
+}
