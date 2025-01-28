@@ -9,7 +9,7 @@
   --danger-red: #e74c3c;
   --magic-purple: #9b59b6;
   --text-light: #ecf0f1;
-  --border-radius: 8px; /* Increased for modern look */
+  --border-radius: 8px;
   --transition-speed: 0.3s;
   --easing: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
@@ -109,7 +109,6 @@ body {
   opacity: 1;
 }
 
-/* Class-specific colors with gradients */
 .class-button[data-class="warrior"] { 
   background: linear-gradient(145deg, #c0392b, #e74c3c);
 }
@@ -168,6 +167,31 @@ body {
   border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 
+/* ----- Health Bars ----- */
+.health-bar {
+  height: 8px;
+  margin-top: 5px;
+  background: rgba(0,0,0,0.3);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.health-bar::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: var(--health-width, 100%);
+  background: linear-gradient(90deg, var(--danger-red), #c0392b);
+  transition: width 0.5s ease-out;
+}
+
+#character-health-bar::after {
+  background: linear-gradient(90deg, var(--accent-green), #27ae60);
+}
+
 /* ----- Buttons & Actions ----- */
 .button {
   padding: 10px 20px;
@@ -202,7 +226,6 @@ body {
   transform: scale(0.95);
 }
 
-/* Button variations */
 .button-primary { background: var(--accent-green); }
 .button-danger { background: var(--danger-red); }
 .button-magic { 
@@ -240,24 +263,16 @@ body {
   }
 }
 
-/* ----- Health Bars ----- */
-.health-bar {
-  height: 8px;
-  background: rgba(0,0,0,0.3);
-  border-radius: 4px;
-  overflow: hidden;
-  position: relative;
-}
-
-.health-bar::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: var(--health-width, 100%);
-  background: linear-gradient(90deg, var(--danger-red), #c0392b);
-  transition: width 0.5s ease-out;
+/* ----- Achievements ----- */
+.achievement-badge {
+  display: inline-block;
+  padding: 5px 10px;
+  margin: 5px;
+  background: linear-gradient(45deg, #f1c40f, #e67e22);
+  border-radius: 15px;
+  font-size: 0.9em;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  animation: slideIn 0.4s ease-out;
 }
 
 /* ======================
@@ -272,6 +287,12 @@ body {
   0%, 100% { transform: translateX(0); }
   25% { transform: translateX(-5px); }
   75% { transform: translateX(5px); }
+}
+
+@keyframes healthBarPulse {
+  0% { transform: scaleY(1); }
+  50% { transform: scaleY(1.2); }
+  100% { transform: scaleY(1); }
 }
 
 .damage-effect {
