@@ -273,6 +273,19 @@ body {
   font-size: 0.9em;
   box-shadow: 0 2px 5px rgba(0,0,0,0.2);
   animation: slideIn 0.4s ease-out;
+  cursor: pointer;
+}
+
+.achievement-description {
+  display: none;
+  margin-top: 5px;
+  padding: 10px;
+  background: rgba(0,0,0,0.2);
+  border-radius: 4px;
+}
+
+.achievement-badge.active + .achievement-description {
+  display: block;
 }
 
 /* ======================
@@ -282,14 +295,7 @@ body {
   0% { box-shadow: 0 0 0 0 rgba(241, 196, 15, 0.4); }
   100% { box-shadow: 0 0 0 10px rgba(241, 196, 15, 0); }
 }
-@keyframes maxHealthGlow {
-  0% { text-shadow: 0 0 10px var(--accent-green); }
-  100% { text-shadow: none; }
-}
 
-.glow-text {
-  animation: maxHealthGlow 1s ease-out;
-}
 @keyframes shake {
   0%, 100% { transform: translateX(0); }
   25% { transform: translateX(-5px); }
