@@ -9,8 +9,9 @@
   --danger-red: #e74c3c;
   --magic-purple: #9b59b6;
   --text-light: #ecf0f1;
-  --border-radius: 5px;
-  --transition-speed: 0.2s;
+  --border-radius: 8px; /* Increased for modern look */
+  --transition-speed: 0.3s;
+  --easing: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 * {
@@ -20,29 +21,44 @@
 }
 
 body {
-  font-family: 'Arial', sans-serif;
-  background-color: var(--primary-dark);
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: linear-gradient(135deg, var(--primary-dark) 0%, #1a2533 100%);
   color: var(--text-light);
-  padding: 20px;
+  line-height: 1.6;
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 20px;
 }
 
 /* ======================
    LAYOUT & CONTAINERS 
 ======================= */
 .game-container {
-  background-color: var(--secondary-dark);
-  padding: 20px;
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(10px);
+  padding: 25px;
   border-radius: var(--border-radius);
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   width: 100%;
-  max-width: 800px;
+  max-width: 1000px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
+  gap: 20px;
+  transform: translateY(0);
+  animation: containerEntrance 0.6s var(--easing);
+}
+
+@keyframes containerEntrance {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ======================
@@ -52,70 +68,153 @@ body {
 .class-selection {
   grid-column: 1 / -1;
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
 .class-button {
-  padding: 10px 20px;
-  margin: 5px;
-  font-size: 1rem;
+  padding: 12px 25px;
+  margin: 8px;
+  font-size: 1.1rem;
   border: none;
   border-radius: var(--border-radius);
   cursor: pointer;
-  transition: transform var(--transition-speed), filter var(--transition-speed);
+  transition: all var(--transition-speed) var(--easing);
+  position: relative;
+  overflow: hidden;
+  transform-style: preserve-3d;
 }
 
-.class-button[data-class="warrior"] { background-color: #c0392b; }
-.class-button[data-class="mage"] { background-color: #2980b9; }
-.class-button[data-class="rogue"] { background-color: #27ae60; }
+.class-button::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255,255,255,0.1);
+  opacity: 0;
+  transition: opacity var(--transition-speed);
+}
+
+.class-button:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.class-button:active {
+  transform: translateY(1px);
+}
+
+.class-button:hover::after {
+  opacity: 1;
+}
+
+/* Class-specific colors with gradients */
+.class-button[data-class="warrior"] { 
+  background: linear-gradient(145deg, #c0392b, #e74c3c);
+}
+.class-button[data-class="mage"] { 
+  background: linear-gradient(145deg, #2980b9, #3498db);
+}
+.class-button[data-class="rogue"] { 
+  background: linear-gradient(145deg, #27ae60, #2ecc71);
+}
 
 /* ----- Game Panels ----- */
 .game-panel {
-  background-color: var(--primary-dark);
-  padding: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 20px;
   border-radius: var(--border-radius);
-  border: 2px solid rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.1);
   margin-bottom: 20px;
+  transition: transform var(--transition-speed);
+  position: relative;
+}
+
+.game-panel:hover {
+  transform: translateY(-3px);
 }
 
 .game-panel h2, 
 .game-panel h3 {
   color: var(--accent-yellow);
-  border-bottom: 2px solid currentColor;
-  padding-bottom: 5px;
+  padding-bottom: 8px;
   margin-bottom: 15px;
+  position: relative;
+}
+
+.game-panel h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 2px;
+  background: currentColor;
 }
 
 /* ----- Stats Containers ----- */
-.character-stats .stat-grid {
+.stat-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
+  gap: 12px;
+}
+
+.stat-grid p {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 
 /* ----- Buttons & Actions ----- */
 .button {
   padding: 10px 20px;
   margin: 5px;
-  font-size: 0.875rem;
+  font-size: 0.9rem;
   border: none;
   border-radius: var(--border-radius);
   cursor: pointer;
-  transition: filter var(--transition-speed);
-  color: white;
+  transition: all var(--transition-speed) var(--easing);
+  position: relative;
+  overflow: hidden;
 }
 
-.button-primary { background-color: var(--accent-green); }
-.button-danger { background-color: var(--danger-red); }
-.button-magic { background-color: var(--magic-purple); }
-.button-info { background-color: #3498db; }
-.button-warning { background-color: #e67e22; }
+.button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity var(--transition-speed);
+}
+
+.button:hover::before {
+  opacity: 1;
+}
+
+.button:active {
+  transform: scale(0.95);
+}
+
+/* Button variations */
+.button-primary { background: var(--accent-green); }
+.button-danger { background: var(--danger-red); }
+.button-magic { 
+  background: linear-gradient(45deg, var(--magic-purple), #8e44ad);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
 
 /* ----- Game Log ----- */
 .game-log {
-  height: 150px;
+  height: 200px;
   overflow-y: auto;
-  background-color: var(--primary-dark);
+  background: rgba(0,0,0,0.3);
   padding: 15px;
   border-radius: var(--border-radius);
   border: 1px solid rgba(255,255,255,0.1);
@@ -123,39 +222,64 @@ body {
 }
 
 .game-log-entry {
-  margin: 5px 0;
-  padding: 8px;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
+  margin: 8px 0;
+  padding: 10px;
+  background: rgba(0,0,0,0.2);
+  border-radius: 4px;
+  animation: logEntry 0.3s ease-out;
 }
 
-/* ----- Achievements ----- */
-.achievement-badge {
-  display: inline-block;
-  padding: 5px 10px;
-  margin: 5px;
-  background: linear-gradient(45deg, #f1c40f, #e67e22);
-  border-radius: 15px;
-  font-size: 0.9em;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+@keyframes logEntry {
+  from {
+    opacity: 0;
+    transform: translateX(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ----- Health Bars ----- */
+.health-bar {
+  height: 8px;
+  background: rgba(0,0,0,0.3);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.health-bar::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: var(--health-width, 100%);
+  background: linear-gradient(90deg, var(--danger-red), #c0392b);
+  transition: width 0.5s ease-out;
 }
 
 /* ======================
-   UTILITIES & ANIMATIONS 
+   ANIMATIONS & EFFECTS 
 ======================= */
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-  100% { transform: scale(1); }
+@keyframes pulseGlow {
+  0% { box-shadow: 0 0 0 0 rgba(241, 196, 15, 0.4); }
+  100% { box-shadow: 0 0 0 10px rgba(241, 196, 15, 0); }
 }
 
-.pulse-animation {
-  animation: pulse 1s infinite;
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
 }
 
-.status-effect {
-  color: var(--danger-red);
-  font-weight: bold;
-  display: inline-block;
+.damage-effect {
+  animation: shake 0.3s ease-in-out;
+}
+
+.level-up-effect {
+  animation: pulseGlow 1.5s ease-out;
 }
 
 /* ======================
@@ -164,20 +288,16 @@ body {
 @media (max-width: 768px) {
   .game-container {
     grid-template-columns: 1fr;
-    padding: 10px;
+    padding: 15px;
   }
 
   .game-panel {
-    grid-column: 1 / -1;
+    margin-bottom: 15px;
   }
 
   .button {
-    padding: 8px 16px;
-    font-size: 0.75rem;
-  }
-
-  .game-log {
-    height: 120px;
+    width: 100%;
+    margin: 5px 0;
   }
 }
 
@@ -187,10 +307,52 @@ body {
   }
   
   .game-container {
-    border-radius: 5px;
+    border-radius: 8px;
   }
 
-  .character-stats .stat-grid {
+  .class-button {
+    width: 100%;
+    margin: 5px 0;
+  }
+
+  .stat-grid {
     grid-template-columns: 1fr;
   }
+}
+
+/* ======================
+   UTILITY CLASSES 
+======================= */
+.glow-text {
+  text-shadow: 0 0 8px rgba(241, 196, 15, 0.6);
+}
+
+.slide-in {
+  animation: slideIn 0.4s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ======================
+   ACCESSIBILITY 
+======================= */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-yellow);
+  outline-offset: 2px;
 }
