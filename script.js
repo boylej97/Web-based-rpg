@@ -38,6 +38,7 @@ const classSelectionDiv = document.getElementById("class-selection");
 const characterClassSpan = document.getElementById("character-class");
 const characterLevelSpan = document.getElementById("character-level");
 const characterHealthSpan = document.getElementById("character-health");
+const characterMaxHealthSpan = document.getElementById("character-max-health");
 const characterManaSpan = document.getElementById("character-mana");
 const characterGoldSpan = document.getElementById("character-gold");
 const enemyNameSpan = document.getElementById("enemy-name");
@@ -55,12 +56,13 @@ document.querySelectorAll('.class-button').forEach(button => {
     spawnNewEnemy();
     updateUI();
     gameLog(`You became a ${character.class}!`);
+    document.body.classList.add('class-selected');
   });
 });
 
 // Core Game Functions
 function spawnNewEnemy() {
-  const floorMultiplier = Math.pow(1.15, character.dungeonFloor - 1);
+  const floorMultiplier = 1 + (character.dungeonFloor * 0.15);
   const baseEnemy = {...enemies[Math.floor(Math.random() * enemies.length)]};
   
   currentEnemy = {
@@ -73,14 +75,24 @@ function spawnNewEnemy() {
   };
   
   updateUI();
+  animateEnemyAppearance();
   gameLog(`A ${currentEnemy.name} appears!`);
+}
+
+function animateEnemyAppearance() {
+  const enemyCard = document.querySelector('.enemy-card');
+  enemyCard.style.animation = 'none';
+  enemyCard.offsetHeight; // Trigger reflow
+  enemyCard.style.animation = 'slideIn 0.5s ease-out';
 }
 
 function attack() {
   const baseDamage = character.attack + (character.equipment.weapon?.attack || 0);
   const damage = Math.floor(baseDamage * (Math.random() * 0.3 + 0.85));
+  
   currentEnemy.health -= damage;
   gameLog(`You attacked ${currentEnemy.name} for ${damage} damage!`);
+  animateDamageEffect('#enemy-health-bar');
 
   if (currentEnemy.health <= 0) {
     handleEnemyDefeat();
@@ -99,14 +111,22 @@ function enemyAttack() {
     Math.floor(baseDamage * (Math.random() * 0.3 + 0.7)) - armorReduction,
     1
   );
+  
   character.health -= damage;
   gameLog(`${currentEnemy.name} attacked you for ${damage} damage!`);
+  animateDamageEffect('#character-health-bar');
 
   if (character.health <= 0) {
     gameLog("Game Over! Refresh to restart.");
     resetGame();
   }
   updateUI();
+}
+
+function animateDamageEffect(selector) {
+  const element = document.querySelector(selector);
+  element.classList.add('damage-effect');
+  setTimeout(() => element.classList.remove('damage-effect'), 300);
 }
 
 function handleEnemyDefeat() {
@@ -139,6 +159,8 @@ function checkLevelUp() {
     character.xpNeeded = Math.floor(character.xpNeeded * 1.5);
     
     gameLog(`Level up! Now level ${character.level}!`);
+    document.body.classList.add('level-up-effect');
+    setTimeout(() => document.body.classList.remove('level-up-effect'), 1500);
     updateUI();
   }
 }
@@ -154,7 +176,7 @@ function updateDungeonDifficulty() {
 // Class System
 function initializeClassSkills(className) {
   const skillsDiv = document.getElementById("skills");
-  skillsDiv.innerHTML = `<h3>Skills</h3>`;
+  skillsDiv.innerHTML = `<h3>Class Skills</h3>`;
 
   const skills = {
     warrior: [{ name: "Power Strike", cost: 10, action: warriorStrike }],
@@ -165,6 +187,7 @@ function initializeClassSkills(className) {
   const classSkills = skills[className] || [];
   classSkills.forEach(skill => {
     const button = document.createElement("button");
+    button.className = 'button button-magic';
     button.textContent = `${skill.name} (${skill.cost} Mana)`;
     button.addEventListener("click", () => useSkill(skill));
     skillsDiv.appendChild(button);
@@ -214,10 +237,17 @@ document.getElementById("use-potion").addEventListener("click", () => {
     character.potions--;
     gameLog("Used potion (+30 HP)!");
     updateUI();
+    animateHealEffect();
   } else {
     gameLog("No potions left!");
   }
 });
+
+function animateHealEffect() {
+  const healthBar = document.getElementById('character-health-bar');
+  healthBar.style.animation = 'healPulse 0.5s';
+  setTimeout(() => healthBar.style.animation = '', 500);
+}
 
 document.getElementById("craft-potion").addEventListener("click", () => {
   if (character.herbs >= 3) {
@@ -261,7 +291,14 @@ document.getElementById("save-button").addEventListener("click", () => {
   };
   localStorage.setItem("rpgSave", JSON.stringify(saveData));
   gameLog("Game saved!");
+  animateSaveButton();
 });
+
+function animateSaveButton() {
+  const saveBtn = document.getElementById('save-button');
+  saveBtn.classList.add('pulse-animation');
+  setTimeout(() => saveBtn.classList.remove('pulse-animation'), 1000);
+}
 
 document.getElementById("load-button").addEventListener("click", () => {
   try {
@@ -271,6 +308,8 @@ document.getElementById("load-button").addEventListener("click", () => {
       currentEnemy = savedData.currentEnemy;
       gameLog("Game loaded!");
       updateUI();
+      initializeClassSkills(character.class);
+      classSelectionDiv.style.display = 'none';
     } else {
       gameLog("No save file found!");
     }
@@ -291,7 +330,10 @@ function checkAchievements() {
         achievementList.innerHTML = '';
       }
       
-      achievementList.innerHTML += `<div class="achievement-badge">${achievement.name}</div>`;
+      const badge = document.createElement('div');
+      badge.className = 'achievement-badge slide-in';
+      badge.textContent = achievement.name;
+      achievementList.appendChild(badge);
       gameLog(`Achievement Unlocked: ${achievement.name}!`);
     }
   });
@@ -303,9 +345,16 @@ function updateUI() {
   characterClassSpan.textContent = character.class || "None";
   characterLevelSpan.textContent = character.level;
   characterHealthSpan.textContent = character.health;
+  characterMaxHealthSpan.textContent = character.maxHealth;
   characterManaSpan.textContent = character.mana;
   characterGoldSpan.textContent = character.gold;
   
+  // Health Bars
+  updateHealthBar('#character-health-bar', character.health, character.maxHealth);
+  if (currentEnemy) {
+    updateHealthBar('#enemy-health-bar', currentEnemy.health, currentEnemy.maxHealth);
+  }
+
   // XP Display
   document.getElementById("xp-bar").textContent = 
     `${character.xp}/${character.xpNeeded} XP`;
@@ -326,33 +375,16 @@ function updateUI() {
   
   // Dungeon
   document.getElementById("dungeon-floor").textContent = character.dungeonFloor;
+}
 
-  // Health Bars
-  const characterHealthPercent = (character.health / character.maxHealth) * 100;
-  document.getElementById('character-health-bar').style.setProperty(
-    '--health-width', 
-    `${Math.max(characterHealthPercent, 0)}%`
-  );
-
-  if (currentEnemy) {
-    const enemyHealthPercent = (currentEnemy.health / currentEnemy.maxHealth) * 100;
-    const enemyHealthBar = document.getElementById('enemy-health-bar');
-    enemyHealthBar.style.setProperty(
-      '--health-width', 
-      `${Math.max(enemyHealthPercent, 0)}%`
-    );
-
-    // Damage effect
-    if (currentEnemy.health < currentEnemy.maxHealth) {
-      enemyHealthBar.classList.add('damage-effect');
-    } else {
-      enemyHealthBar.classList.remove('damage-effect');
-    }
-  }
+function updateHealthBar(selector, current, max) {
+  const healthPercent = (current / max) * 100;
+  document.querySelector(selector).style.setProperty('--health-width', `${healthPercent}%`);
 }
 
 function gameLog(message) {
   const logEntry = document.createElement("p");
+  logEntry.className = 'game-log-entry';
   logEntry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
   gameLogDiv.appendChild(logEntry);
   gameLogDiv.scrollTop = gameLogDiv.scrollHeight;
@@ -391,8 +423,10 @@ function resetGame() {
   classSelectionDiv.style.display = 'block';
   currentEnemy = null;
   document.getElementById("achievement-list").innerHTML = "None yet!";
+  document.getElementById("skills").innerHTML = `<h3>Class Skills</h3>`;
   updateUI();
   gameLog("Game reset. Choose your class again.");
+  document.body.classList.remove('class-selected');
 }
 
 // Initialize
