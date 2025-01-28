@@ -276,15 +276,19 @@ body {
   cursor: pointer;
 }
 
-.achievement-description {
-  display: none;
-  margin-top: 5px;
-  padding: 10px;
-  background: rgba(0,0,0,0.2);
-  border-radius: 4px;
+.achievement-title {
+  font-weight: bold;
+  cursor: pointer;
 }
 
-.achievement-badge.active + .achievement-description {
+.achievement-description {
+  display: none;
+  font-size: 0.8em;
+  color: rgba(255,255,255,0.7);
+  margin-top: 5px;
+}
+
+.achievement-title:hover + .achievement-description {
   display: block;
 }
 
