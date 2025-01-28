@@ -125,8 +125,8 @@ function enemyAttack() {
 
 function animateDamageEffect(selector) {
   const element = document.querySelector(selector);
-  element.classList.add('damage-effect');
-  setTimeout(() => element.classList.remove('damage-effect'), 300);
+  element.classList.add('damage-pulse');
+  setTimeout(() => element.classList.remove('damage-pulse'), 300);
 }
 
 function handleEnemyDefeat() {
@@ -153,14 +153,16 @@ function checkLevelUp() {
     character.maxHealth += 20;
     character.maxMana += 10;
     character.attack += 5;
-    character.health = character.maxHealth;
+    character.health = character.maxHealth; // Full heal on level up
     character.mana = character.maxMana;
     character.xp = excessXP;
     character.xpNeeded = Math.floor(character.xpNeeded * 1.5);
     
     gameLog(`Level up! Now level ${character.level}!`);
-    document.body.classList.add('level-up-effect');
-    setTimeout(() => document.body.classList.remove('level-up-effect'), 1500);
+    document.getElementById('character-max-health').classList.add('glow-text');
+    setTimeout(() => {
+      document.getElementById('character-max-health').classList.remove('glow-text');
+    }, 1000);
     updateUI();
   }
 }
@@ -379,7 +381,10 @@ function updateUI() {
 
 function updateHealthBar(selector, current, max) {
   const healthPercent = (current / max) * 100;
-  document.querySelector(selector).style.setProperty('--health-width', `${healthPercent}%`);
+  document.querySelector(selector).style.setProperty(
+    '--health-width', 
+    `${Math.max(healthPercent, 0)}%`
+  );
 }
 
 function gameLog(message) {
