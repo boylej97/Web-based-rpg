@@ -36,7 +36,10 @@
           <div class="stat-grid">
             <p>Class: <span id="character-class">None</span></p>
             <p>Level: <span id="character-level">1</span></p>
-            <p>Health: <span id="character-health">100</span>/<span id="character-max-health">100</span></p>
+            <p>Health: 
+              <span id="character-health">100</span>/<span id="character-max-health">100</span>
+              <div class="health-bar" id="character-health-bar" style="--health-width: 100%"></div>
+            </p>
             <p>Mana: <span id="character-mana">50</span>/<span id="character-max-mana">50</span></p>
             <p>XP: <span id="xp-bar">0/100</span></p>
             <p>Gold: <span id="character-gold">0</span></p>
@@ -63,7 +66,10 @@
           <h2>Current Enemy</h2>
           <div class="stat-grid">
             <p>Name: <span id="enemy-name">None</span></p>
-            <p>Health: <span id="enemy-health">0</span></p>
+            <p>Health: 
+              <span id="enemy-health">0</span>
+              <div class="health-bar" id="enemy-health-bar" style="--health-width: 100%"></div>
+            </p>
             <p>Attack: <span id="enemy-attack">0</span></p>
           </div>
         </article>
