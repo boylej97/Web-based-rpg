@@ -60,12 +60,12 @@ document.querySelectorAll('.class-button').forEach(button => {
 
 // Core Game Functions
 function spawnNewEnemy() {
-  const floorMultiplier = 1 + (character.dungeonFloor * 0.15);
+  const floorMultiplier = Math.pow(1.15, character.dungeonFloor - 1);
   const baseEnemy = {...enemies[Math.floor(Math.random() * enemies.length)]};
   
   currentEnemy = {
     ...baseEnemy,
-    maxHealth: Math.floor(baseEnemy.health * floorMultiplier), // Store original health
+    maxHealth: Math.floor(baseEnemy.health * floorMultiplier),
     health: Math.floor(baseEnemy.health * floorMultiplier),
     attack: Math.floor(baseEnemy.attack * floorMultiplier),
     gold: Math.floor(baseEnemy.gold * floorMultiplier),
@@ -110,7 +110,7 @@ function enemyAttack() {
 }
 
 function handleEnemyDefeat() {
-  const xpGained = currentEnemy.maxHealth; // Use stored max health instead of current health
+  const xpGained = currentEnemy.maxHealth;
   character.xp += xpGained;
   character.gold += currentEnemy.gold;
   character.herbs += currentEnemy.herbs;
@@ -124,7 +124,7 @@ function handleEnemyDefeat() {
   spawnNewEnemy();
 }
 
-// Progression System (Fixed XP Carryover)
+// Progression System
 function checkLevelUp() {
   while (character.xp >= character.xpNeeded) {
     const excessXP = character.xp - character.xpNeeded;
@@ -151,7 +151,7 @@ function updateDungeonDifficulty() {
   }
 }
 
-// Class System (Fixed Skill Follow-up)
+// Class System
 function initializeClassSkills(className) {
   const skillsDiv = document.getElementById("skills");
   skillsDiv.innerHTML = `<h3>Skills</h3>`;
@@ -253,7 +253,7 @@ document.getElementById("buy-sword").addEventListener("click", () => {
   }
 });
 
-// Save/Load System (With Error Handling)
+// Save/Load System
 document.getElementById("save-button").addEventListener("click", () => {
   const saveData = {
     character: character,
@@ -279,7 +279,7 @@ document.getElementById("load-button").addEventListener("click", () => {
   }
 });
 
-// Achievements (Fixed Initial State)
+// Achievements
 function checkAchievements() {
   achievements.forEach(achievement => {
     if (!character.achievements.includes(achievement.id) && 
@@ -287,7 +287,6 @@ function checkAchievements() {
       character.achievements.push(achievement.id);
       const achievementList = document.getElementById("achievement-list");
       
-      // Clear "None yet!" on first achievement
       if (!achievementList.querySelector('.achievement-badge')) {
         achievementList.innerHTML = '';
       }
@@ -298,7 +297,7 @@ function checkAchievements() {
   });
 }
 
-// UI Functions (Added XP Display)
+// UI Functions
 function updateUI() {
   // Character Stats
   characterClassSpan.textContent = character.class || "None";
@@ -327,6 +326,29 @@ function updateUI() {
   
   // Dungeon
   document.getElementById("dungeon-floor").textContent = character.dungeonFloor;
+
+  // Health Bars
+  const characterHealthPercent = (character.health / character.maxHealth) * 100;
+  document.getElementById('character-health-bar').style.setProperty(
+    '--health-width', 
+    `${Math.max(characterHealthPercent, 0)}%`
+  );
+
+  if (currentEnemy) {
+    const enemyHealthPercent = (currentEnemy.health / currentEnemy.maxHealth) * 100;
+    const enemyHealthBar = document.getElementById('enemy-health-bar');
+    enemyHealthBar.style.setProperty(
+      '--health-width', 
+      `${Math.max(enemyHealthPercent, 0)}%`
+    );
+
+    // Damage effect
+    if (currentEnemy.health < currentEnemy.maxHealth) {
+      enemyHealthBar.classList.add('damage-effect');
+    } else {
+      enemyHealthBar.classList.remove('damage-effect');
+    }
+  }
 }
 
 function gameLog(message) {
