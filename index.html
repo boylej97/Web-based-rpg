@@ -3,210 +3,315 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Animated UI Showcase</title>
+    <title>Modern Animated UI</title>
     
-    <!-- AOS (Animate On Scroll) -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    
-    <!-- Font Awesome -->
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <!-- Animation Libraries -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
     <style>
-        /* Custom CSS */
+        :root {
+            --primary: #7c3aed;
+            --secondary: #ec4899;
+            --glass: rgba(255, 255, 255, 0.05);
+            --text: #f8fafc;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Arial', sans-serif;
-            background: #1a1a1a;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(45deg, #0f172a, #1e293b);
+            color: var(--text);
             min-height: 200vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 2rem;
-            padding: 4rem 1rem;
+            padding: 2rem;
         }
 
-        /* ----- uiverse.io Elements (Customized) ----- */
+        /* ===== Enhanced uiverse.io Elements ===== */
         
-        /* 1. Neon Button - https://uiverse.io/vinodjangid07/neon-button-2023 */
-        .neon-btn {
-            position: relative;
-            padding: 16px 30px;
-            font-size: 1.5rem;
-            color: #fff;
-            border: 2px solid rgba(0, 255, 255, 0.5);
-            border-radius: 8px;
-            background: transparent;
+        /* 1. Glassmorphic Card */
+        .glass-card {
+            width: 320px;
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-10px) rotate(2deg);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 2. Gradient Button */
+        .gradient-btn {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
             cursor: pointer;
+            position: relative;
+            overflow: hidden;
             transition: all 0.3s ease;
         }
 
-        .neon-btn:hover {
-            color: #00ffff;
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5),
-                        inset 0 0 15px rgba(0, 255, 255, 0.5);
+        .gradient-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                120deg,
+                transparent,
+                rgba(255, 255, 255, 0.3),
+                transparent
+            );
+            transition: 0.5s;
         }
 
-        /* 2. Profile Card - https://uiverse.io/ElisavetaTripon/profile-card-2023 */
-        .profile-card {
-            width: 300px;
-            background: #fff;
-            border-radius: 15px;
-            padding: 1.5rem;
-            text-align: center;
-            transition: all 0.3s ease;
+        .gradient-btn:hover::before {
+            left: 100%;
         }
 
-        .profile-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 20px rgba(0, 255, 255, 0.2);
-        }
-
-        /* 3. Loader - https://uiverse.io/WebFrick/short-penguin-29 */
-        .loader {
+        /* 3. Modern Loader */
+        .pulse-loader {
             display: flex;
-            gap: 10px;
+            gap: 1rem;
         }
 
-        .loader div {
+        .pulse-loader div {
             width: 20px;
             height: 20px;
-            background: #00ffff;
+            background: var(--primary);
             border-radius: 50%;
+            animation: pulse 1.2s infinite ease-in-out;
         }
 
-        /* 4. Toggle Switch - https://uiverse.io/alexruix/tall-wombat-27 */
-        .toggle-switch {
+        @keyframes pulse {
+            0%, 80%, 100% { transform: scale(0.5); }
+            40% { transform: scale(1); }
+        }
+
+        /* 4. Animated Input */
+        .floating-input {
             position: relative;
-            width: 80px;
-            height: 40px;
+            width: 300px;
+            margin: 2rem 0;
         }
 
-        .toggle-input {
+        .floating-input input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            background: transparent;
+            color: var(--text);
+            transition: all 0.3s ease;
+        }
+
+        .floating-input label {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.6);
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+
+        .floating-input input:focus ~ label,
+        .floating-input input:valid ~ label {
+            top: -10px;
+            left: 0.8rem;
+            font-size: 0.8rem;
+            color: var(--primary);
+        }
+
+        /* ===== Layout Improvements ===== */
+        section {
+            width: 100%;
+            max-width: 1200px;
+            padding: 4rem 0;
+            display: grid;
+            place-items: center;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            width: 100%;
+            padding: 2rem;
+        }
+
+        /* ===== Scroll Animations ===== */
+        [data-aos="custom-fade"] {
             opacity: 0;
-            width: 0;
-            height: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
         }
 
-        .toggle-slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: #333;
-            transition: 0.4s;
-            border-radius: 34px;
-        }
-
-        .toggle-slider:before {
-            position: absolute;
-            content: "";
-            height: 30px;
-            width: 30px;
-            left: 5px;
-            bottom: 5px;
-            background: #fff;
-            transition: 0.4s;
-            border-radius: 50%;
-        }
-
-        .toggle-input:checked + .toggle-slider {
-            background: #00ffff;
-        }
-
-        .toggle-input:checked + .toggle-slider:before {
-            transform: translateX(40px);
+        [data-aos="custom-fade"].aos-animate {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
 <body>
-    <!-- Animated Neon Button -->
-    <button class="neon-btn" data-aos="zoom-in">
-        <i class="fas fa-magic"></i> Hover Me
-    </button>
+    <!-- Hero Section -->
+    <section class="hero">
+        <button class="gradient-btn" data-aos="custom-fade">
+            <i class="fas fa-sparkles"></i> Explore More
+        </button>
 
-    <!-- Profile Card with Hover Animation -->
-    <div class="profile-card" data-aos="fade-up">
-        <img src="https://via.placeholder.com/100" alt="Profile" 
-             style="border-radius: 50%; margin-bottom: 1rem;">
-        <h3>John Doe</h3>
-        <p>Web Developer</p>
-        <div class="loader" style="justify-content: center; margin-top: 1rem;">
-            <div></div>
-            <div></div>
-            <div></div>
+        <div class="glass-card" data-aos="custom-fade" data-aos-delay="200">
+            <div class="pulse-loader">
+                <div style="animation-delay: -0.32s"></div>
+                <div style="animation-delay: -0.16s"></div>
+                <div></div>
+            </div>
+            <h2 style="margin: 1.5rem 0;">Creative Solutions</h2>
+            <p>Innovative approaches for modern challenges</p>
         </div>
-    </div>
+    </section>
 
-    <!-- Animated Toggle Switch -->
-    <label class="toggle-switch" data-aos="flip-left">
-        <input type="checkbox" class="toggle-input">
-        <span class="toggle-slider"></span>
-    </label>
+    <!-- Features Grid -->
+    <section class="features">
+        <div class="grid">
+            <div class="glass-card" data-aos="custom-fade">
+                <i class="fas fa-rocket" style="font-size: 2rem; color: var(--primary);"></i>
+                <h3>Fast Performance</h3>
+                <p>Optimized for seamless interactions</p>
+            </div>
 
-    <!-- GSAP Animated Section -->
-    <section class="gsap-section">
-        <h2 data-aos="fade-right">Our Features</h2>
-        <div class="feature-box">
-            <i class="fas fa-rocket"></i>
-            <p>Lightning Fast</p>
+            <div class="glass-card" data-aos="custom-fade" data-aos-delay="100">
+                <i class="fas fa-paint-brush" style="font-size: 2rem; color: var(--secondary);"></i>
+                <h3>Beautiful UI</h3>
+                <p>Modern design principles applied</p>
+            </div>
+
+            <div class="glass-card" data-aos="custom-fade" data-aos-delay="200">
+                <i class="fas fa-code" style="font-size: 2rem; color: #3b82f6;"></i>
+                <h3>Clean Code</h3>
+                <p>Semantic and maintainable</p>
+            </div>
         </div>
-        <div class="feature-box">
-            <i class="fas fa-paint-brush"></i>
-            <p>Beautiful UI</p>
+    </section>
+
+    <!-- Contact Form -->
+    <section class="contact">
+        <div class="glass-card" data-aos="custom-fade" style="width: 400px; padding: 2rem;">
+            <h2 style="margin-bottom: 2rem;">Get in Touch</h2>
+            <div class="floating-input">
+                <input type="text" required>
+                <label>Your Name</label>
+            </div>
+            <div class="floating-input">
+                <input type="email" required>
+                <label>Email Address</label>
+            </div>
+            <button class="gradient-btn" style="margin-top: 1rem; width: 100%;">
+                Send Message
+            </button>
         </div>
     </section>
 
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     
     <script>
-        // Initialize AOS
+        // Initialize AOS with custom settings
         AOS.init({
-            duration: 1000,
+            duration: 800,
             once: false,
-            easing: 'ease-in-out'
+            easing: 'ease-out-quad',
+            mirror: true
         });
 
         // GSAP Animations
-        gsap.from(".loader div", {
-            duration: 1,
-            y: -30,
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Hero section animation
+        gsap.from(".hero > *", {
+            duration: 1.2,
+            y: 50,
             opacity: 0,
             stagger: 0.2,
-            repeat: -1,
-            yoyo: true,
-            ease: "power2.inOut"
+            ease: "power4.out"
         });
 
-        gsap.from(".feature-box", {
-            scrollTrigger: {
-                trigger: ".gsap-section",
-                start: "top center"
-            },
-            duration: 1,
-            x: -100,
-            opacity: 0,
-            stagger: 0.3,
-            ease: "back.out(1.7)"
-        });
+        // Card hover effects
+        gsap.utils.toArray(".glass-card").forEach(card => {
+            card.addEventListener("mousemove", (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                gsap.to(card, {
+                    duration: 0.5,
+                    rotationX: -(y - rect.height/2) / 15,
+                    rotationY: (x - rect.width/2) / 15,
+                    ease: "power2.out"
+                });
+            });
 
-        // Neon Button Hover Animation
-        document.querySelector('.neon-btn').addEventListener('mousemove', (e) => {
-            gsap.to(e.currentTarget, {
-                duration: 0.3,
-                scale: 1.05,
-                ease: "power2.out"
+            card.addEventListener("mouseleave", () => {
+                gsap.to(card, {
+                    duration: 0.8,
+                    rotationX: 0,
+                    rotationY: 0,
+                    ease: "elastic.out(1, 0.5)"
+                });
             });
         });
 
-        document.querySelector('.neon-btn').addEventListener('mouseleave', (e) => {
-            gsap.to(e.currentTarget, {
-                duration: 0.3,
-                scale: 1,
-                ease: "power2.out"
+        // Parallax effect
+        gsap.utils.toArray("section").forEach((section, i) => {
+            gsap.from(section, {
+                scrollTrigger: {
+                    trigger: section,
+                    start: "top bottom",
+                    toggleActions: "play none none reverse"
+                },
+                y: i % 2 ? -50 : 50,
+                opacity: 0,
+                duration: 1,
+                ease: "power3.out"
             });
+        });
+
+        // Theme control
+        const root = document.documentElement;
+        const colors = [
+            { primary: "#7c3aed", secondary: "#ec4899" },
+            { primary: "#3b82f6", secondary: "#60a5fa" },
+            { primary: "#10b981", secondary: "#34d399" }
+        ];
+        
+        let currentTheme = 0;
+        document.querySelector('.gradient-btn').addEventListener('click', () => {
+            currentTheme = (currentTheme + 1) % colors.length;
+            root.style.setProperty('--primary', colors[currentTheme].primary);
+            root.style.setProperty('--secondary', colors[currentTheme].secondary);
         });
     </script>
 </body>
