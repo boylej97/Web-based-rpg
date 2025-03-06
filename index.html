@@ -1,126 +1,213 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Boyleplays RPG</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated UI Showcase</title>
+    
+    <!-- AOS (Animate On Scroll) -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* Custom CSS */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #1a1a1a;
+            min-height: 200vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+            padding: 4rem 1rem;
+        }
+
+        /* ----- uiverse.io Elements (Customized) ----- */
+        
+        /* 1. Neon Button - https://uiverse.io/vinodjangid07/neon-button-2023 */
+        .neon-btn {
+            position: relative;
+            padding: 16px 30px;
+            font-size: 1.5rem;
+            color: #fff;
+            border: 2px solid rgba(0, 255, 255, 0.5);
+            border-radius: 8px;
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .neon-btn:hover {
+            color: #00ffff;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5),
+                        inset 0 0 15px rgba(0, 255, 255, 0.5);
+        }
+
+        /* 2. Profile Card - https://uiverse.io/ElisavetaTripon/profile-card-2023 */
+        .profile-card {
+            width: 300px;
+            background: #fff;
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 255, 255, 0.2);
+        }
+
+        /* 3. Loader - https://uiverse.io/WebFrick/short-penguin-29 */
+        .loader {
+            display: flex;
+            gap: 10px;
+        }
+
+        .loader div {
+            width: 20px;
+            height: 20px;
+            background: #00ffff;
+            border-radius: 50%;
+        }
+
+        /* 4. Toggle Switch - https://uiverse.io/alexruix/tall-wombat-27 */
+        .toggle-switch {
+            position: relative;
+            width: 80px;
+            height: 40px;
+        }
+
+        .toggle-input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #333;
+            transition: 0.4s;
+            border-radius: 34px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 30px;
+            width: 30px;
+            left: 5px;
+            bottom: 5px;
+            background: #fff;
+            transition: 0.4s;
+            border-radius: 50%;
+        }
+
+        .toggle-input:checked + .toggle-slider {
+            background: #00ffff;
+        }
+
+        .toggle-input:checked + .toggle-slider:before {
+            transform: translateX(40px);
+        }
+    </style>
 </head>
 <body>
-  <div class="game-container">
-    <!-- Game Header -->
-    <header class="game-header">
-      <h1>Boyleplays RPG</h1>
-      <div id="save-load">
-        <button id="save-button">Save Game</button>
-        <button id="load-button">Load Game</button>
-      </div>
-    </header>
+    <!-- Animated Neon Button -->
+    <button class="neon-btn" data-aos="zoom-in">
+        <i class="fas fa-magic"></i> Hover Me
+    </button>
 
-    <!-- Character Creation -->
-    <section id="class-selection" class="game-section">
-      <h2>Choose Your Class</h2>
-      <div class="class-buttons">
-        <button class="class-button" data-class="warrior">Warrior</button>
-        <button class="class-button" data-class="mage">Mage</button>
-        <button class="class-button" data-class="rogue">Rogue</button>
-      </div>
+    <!-- Profile Card with Hover Animation -->
+    <div class="profile-card" data-aos="fade-up">
+        <img src="https://via.placeholder.com/100" alt="Profile" 
+             style="border-radius: 50%; margin-bottom: 1rem;">
+        <h3>John Doe</h3>
+        <p>Web Developer</p>
+        <div class="loader" style="justify-content: center; margin-top: 1rem;">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+
+    <!-- Animated Toggle Switch -->
+    <label class="toggle-switch" data-aos="flip-left">
+        <input type="checkbox" class="toggle-input">
+        <span class="toggle-slider"></span>
+    </label>
+
+    <!-- GSAP Animated Section -->
+    <section class="gsap-section">
+        <h2 data-aos="fade-right">Our Features</h2>
+        <div class="feature-box">
+            <i class="fas fa-rocket"></i>
+            <p>Lightning Fast</p>
+        </div>
+        <div class="feature-box">
+            <i class="fas fa-paint-brush"></i>
+            <p>Beautiful UI</p>
+        </div>
     </section>
 
-    <!-- Main Game Layout -->
-    <main class="game-main">
-      <!-- Player Section -->
-      <section class="player-panel">
-        <article class="character-card">
-          <h2>Character Stats</h2>
-          <div class="stat-grid">
-            <p>Class: <span id="character-class">None</span></p>
-            <p>Level: <span id="character-level">1</span></p>
-            <p>Health: 
-              <span id="character-health">100</span>/<span id="character-max-health">100</span>
-              <div class="health-bar" id="character-health-bar" style="--health-width: 100%"></div>
-            </p>
-            <p>Mana: <span id="character-mana">50</span>/<span id="character-max-mana">50</span></p>
-            <p>XP: <span id="xp-bar">0/100</span></p>
-            <p>Gold: <span id="character-gold">0</span></p>
-            <p>Attack: <span id="character-attack">10</span></p>
-          </div>
-        </article>
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: false,
+            easing: 'ease-in-out'
+        });
 
-        <article class="equipment-card">
-          <h3>Equipment</h3>
-          <p>Weapon: <span id="equipped-weapon">None</span></p>
-          <p>Armor: <span id="equipped-armor">None</span></p>
-        </article>
+        // GSAP Animations
+        gsap.from(".loader div", {
+            duration: 1,
+            y: -30,
+            opacity: 0,
+            stagger: 0.2,
+            repeat: -1,
+            yoyo: true,
+            ease: "power2.inOut"
+        });
 
-        <article class="dungeon-card">
-          <h3>Dungeon Info</h3>
-          <p>Floor: <span id="dungeon-floor">1</span></p>
-          <button id="enter-dungeon">Enter Dungeon</button>
-        </article>
-      </section>
+        gsap.from(".feature-box", {
+            scrollTrigger: {
+                trigger: ".gsap-section",
+                start: "top center"
+            },
+            duration: 1,
+            x: -100,
+            opacity: 0,
+            stagger: 0.3,
+            ease: "back.out(1.7)"
+        });
 
-      <!-- Combat Section -->
-      <section class="combat-panel">
-        <article class="enemy-card">
-          <h2>Current Enemy</h2>
-          <div class="stat-grid">
-            <p>Name: <span id="enemy-name">None</span></p>
-            <p>Health: 
-              <span id="enemy-health">0</span>
-              <div class="health-bar" id="enemy-health-bar" style="--health-width: 100%"></div>
-            </p>
-            <p>Attack: <span id="enemy-attack">0</span></p>
-          </div>
-        </article>
+        // Neon Button Hover Animation
+        document.querySelector('.neon-btn').addEventListener('mousemove', (e) => {
+            gsap.to(e.currentTarget, {
+                duration: 0.3,
+                scale: 1.05,
+                ease: "power2.out"
+            });
+        });
 
-        <article class="action-card">
-          <h3>Combat Actions</h3>
-          <div class="action-buttons">
-            <button id="attack-button">Basic Attack</button>
-            <button id="rest-button">Rest</button>
-          </div>
-          <div id="skills">
-            <h4>Class Skills</h4>
-          </div>
-        </article>
-      </section>
-
-      <!-- Game Systems -->
-      <section class="systems-panel">
-        <article class="inventory-card">
-          <h3>Inventory</h3>
-          <p>Potions: <span id="potions-count">0</span></p>
-          <p>Herbs: <span id="herb-count">0</span></p>
-          <div class="inventory-actions">
-            <button id="use-potion">Use Potion</button>
-            <button id="craft-potion">Craft Potion (3 Herbs)</button>
-          </div>
-        </article>
-
-        <article class="shop-card">
-          <h3>Shop</h3>
-          <div class="shop-items">
-            <button id="buy-potion">Buy Potion (10 Gold)</button>
-            <button id="buy-sword">Buy Sword (50 Gold)</button>
-          </div>
-        </article>
-
-        <article class="achievements-card">
-          <h3>Achievements</h3>
-          <div id="achievement-list">None yet!</div>
-        </article>
-      </section>
-    </main>
-
-    <!-- Game Log -->
-    <section class="game-log">
-      <h3>Game Log</h3>
-      <div id="game-log">
-        <p>Welcome to the RPG! Choose your class to begin.</p>
-      </div>
-    </section>
-  </div>
-  <script src="script.js"></script>
+        document.querySelector('.neon-btn').addEventListener('mouseleave', (e) => {
+            gsap.to(e.currentTarget, {
+                duration: 0.3,
+                scale: 1,
+                ease: "power2.out"
+            });
+        });
+    </script>
 </body>
 </html>
