@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elegant Dark/Light UI</title>
+    <title>Boyleplays | Content Creator</title>
     
     <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
@@ -51,7 +51,7 @@
             line-height: 1.6;
         }
 
-        /* ===== Theme Toggle ===== */
+        /* Theme Toggle */
         .theme-toggle {
             position: fixed;
             top: 2rem;
@@ -73,7 +73,7 @@
             color: var(--text);
         }
 
-        /* ===== Elegant Components ===== */
+        /* Glass Panel */
         .glass-panel {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(12px);
@@ -88,66 +88,69 @@
             transform: translateY(-4px);
         }
 
-        .elegant-btn {
-            padding: 1rem 2rem;
-            font-size: 1rem;
-            border: none;
-            border-radius: 8px;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            color: white;
+        /* Social Media Section */
+        .social-section {
+            text-align: center;
+            padding: 4rem 0;
+        }
+
+        .social-grid {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .social-card {
+            width: 80px;
+            height: 80px;
+            border-radius: 16px;
+            display: grid;
+            place-items: center;
+            background: var(--surface);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
         }
 
-        .elegant-btn::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                120deg,
-                transparent,
-                rgba(255, 255, 255, 0.2),
-                transparent
-            );
-            transition: 0.5s;
+        .social-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
         }
 
-        .elegant-btn:hover::after {
-            left: 100%;
+        .social-card i {
+            font-size: 1.8rem;
+            color: var(--text);
         }
 
-        /* ===== Typography ===== */
-        h1, h2, h3 {
-            font-family: 'Playfair Display', serif;
-            font-weight: 500;
-            margin-bottom: 1.5rem;
+        /* Platform Colors */
+        .twitch:hover { background: #9146ff !important; }
+        .twitter:hover { background: #000000 !important; }
+        .tiktok:hover { background: #ff0050 !important; }
+        .youtube:hover { background: #ff0000 !important; }
+        .instagram:hover { background: #e1306c !important; }
+
+        .social-card:hover i {
+            color: white !important;
         }
 
-        h1 {
-            font-size: 2.5rem;
-            line-height: 1.2;
+        /* Bio Section */
+        .bio-section {
+            max-width: 800px;
+            margin: 2rem auto;
+            text-align: center;
+            padding: 2rem;
         }
 
-        /* ===== Layout ===== */
+        /* Layout */
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 4rem 2rem;
         }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
-        }
-
-        /* ===== Dark Mode Overrides ===== */
+        /* Dark Mode */
         body.dark-mode {
             --background: var(--bg-dark);
             --text: var(--text-dark);
@@ -161,7 +164,7 @@
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        /* ===== Animations ===== */
+        /* Animations */
         [data-aos="fade-up"] {
             opacity: 0;
             transform: translateY(20px);
@@ -180,36 +183,37 @@
         <i class="fas fa-moon"></i>
     </button>
 
-    <!-- Hero Section -->
+    <!-- Main Content -->
     <section class="container">
         <div class="glass-panel" data-aos="fade-up">
-            <h1>Elegant Design System</h1>
-            <p>A harmonious blend of form and function, crafted for modern experiences.</p>
-            <button class="elegant-btn" style="margin-top: 2rem;">
-                Explore Collection
-            </button>
-        </div>
-    </section>
-
-    <!-- Features Grid -->
-    <section class="container">
-        <div class="grid">
-            <div class="glass-panel" data-aos="fade-up">
-                <i class="fas fa-palette" style="font-size: 2rem; margin-bottom: 1rem;"></i>
-                <h3>Color Theory</h3>
-                <p>Carefully curated palette for visual harmony</p>
+            <!-- Bio Section -->
+            <div class="bio-section">
+                <h1>Boyleplays</h1>
+                <p>🎮 Professional Gaming Content Creator</p>
+                <p>🕹️ Streaming Daily Adventures & Esports</p>
+                <p>🌟 Join the Gaming Community!</p>
             </div>
 
-            <div class="glass-panel" data-aos="fade-up" data-aos-delay="100">
-                <i class="fas fa-magic" style="font-size: 2rem; margin-bottom: 1rem;"></i>
-                <h3>Smart Animations</h3>
-                <p>Fluid motion design principles</p>
-            </div>
-
-            <div class="glass-panel" data-aos="fade-up" data-aos-delay="200">
-                <i class="fas fa-code" style="font-size: 2rem; margin-bottom: 1rem;"></i>
-                <h3>Clean Code</h3>
-                <p>Semantic & maintainable structure</p>
+            <!-- Social Media -->
+            <div class="social-section">
+                <h2>Connect With Me</h2>
+                <div class="social-grid">
+                    <a href="https://twitch.tv/boyleplays" target="_blank" class="social-card twitch">
+                        <i class="fab fa-twitch"></i>
+                    </a>
+                    <a href="https://twitter.com/boyleplays" target="_blank" class="social-card twitter">
+                        <i class="fab fa-x-twitter"></i>
+                    </a>
+                    <a href="https://tiktok.com/@boyleplays" target="_blank" class="social-card tiktok">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                    <a href="https://youtube.com/boyleplays" target="_blank" class="social-card youtube">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a href="https://instagram.com/boyleplays" target="_blank" class="social-card instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
             </div>
         </div>
     </section>
@@ -219,7 +223,7 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     
     <script>
-        // Theme Toggle Logic
+        // Theme Toggle
         const themeToggle = document.querySelector('.theme-toggle');
         const body = document.body;
         let isDark = localStorage.getItem('theme') === 'dark';
@@ -232,19 +236,12 @@
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
         }
 
-        // Initialize theme
         setTheme();
 
         themeToggle.addEventListener('click', () => {
             isDark = !isDark;
             setTheme();
-            
-            // Smooth theme transition
-            gsap.to(body, {
-                duration: 0.5,
-                ease: 'power2.inOut',
-                overwrite: true
-            });
+            gsap.to(body, { duration: 0.5, ease: 'power2.inOut' });
         });
 
         // Initialize AOS
@@ -255,38 +252,23 @@
             mirror: true
         });
 
-        // GSAP Animations
+        // Social Card Animations
+        document.querySelectorAll('.social-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                gsap.to(card, { duration: 0.3, scale: 1.05, ease: "power2.out" });
+            });
+
+            card.addEventListener('mouseleave', () => {
+                gsap.to(card, { duration: 0.3, scale: 1, ease: "power2.out" });
+            });
+        });
+
+        // Initial Load Animation
         gsap.from(".glass-panel", {
             duration: 1.2,
             y: 40,
             opacity: 0,
-            stagger: 0.2,
             ease: "power4.out"
-        });
-
-        // Button hover effect
-        document.querySelectorAll('.elegant-btn').forEach(btn => {
-            btn.addEventListener('mousemove', (e) => {
-                const rect = btn.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                gsap.to(btn, {
-                    duration: 0.3,
-                    x: (x - rect.width/2) * 0.1,
-                    y: (y - rect.height/2) * 0.1,
-                    ease: "power2.out"
-                });
-            });
-
-            btn.addEventListener('mouseleave', () => {
-                gsap.to(btn, {
-                    duration: 0.5,
-                    x: 0,
-                    y: 0,
-                    ease: "elastic.out(1, 0.5)"
-                });
-            });
         });
     </script>
 </body>
