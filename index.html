@@ -3,65 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modern Animated UI</title>
+    <title>Elegant Dark/Light UI</title>
     
     <!-- Fonts & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Animation Libraries -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    
+
     <style>
         :root {
-            --primary: #7c3aed;
-            --secondary: #ec4899;
-            --glass: rgba(255, 255, 255, 0.05);
-            --text: #f8fafc;
+            /* Light Theme */
+            --bg-light: #fafafa;
+            --text-light: #1a1a1a;
+            --surface-light: #ffffff;
+            --primary-light: #6366f1;
+            --secondary-light: #ec4899;
+            
+            /* Dark Theme */
+            --bg-dark: #0a0a0a;
+            --text-dark: #fafafa;
+            --surface-dark: #1a1a1a;
+            --primary-dark: #818cf8;
+            --secondary-dark: #f472b6;
+
+            /* Current Theme */
+            --background: var(--bg-light);
+            --text: var(--text-light);
+            --surface: var(--surface-light);
+            --primary: var(--primary-light);
+            --secondary: var(--secondary-light);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            transition: background 0.3s ease, color 0.2s ease;
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(45deg, #0f172a, #1e293b);
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
             color: var(--text);
-            min-height: 200vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 2rem;
+            min-height: 100vh;
+            line-height: 1.6;
         }
 
-        /* ===== Enhanced uiverse.io Elements ===== */
-        
-        /* 1. Glassmorphic Card */
-        .glass-card {
-            width: 320px;
-            background: var(--glass);
+        /* ===== Theme Toggle ===== */
+        .theme-toggle {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            background: var(--surface);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: grid;
+            place-items: center;
+            z-index: 1000;
+        }
+
+        .theme-toggle i {
+            font-size: 1.2rem;
+            color: var(--text);
+        }
+
+        /* ===== Elegant Components ===== */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(12px);
-            border-radius: 20px;
+            border-radius: 16px;
             padding: 2rem;
             border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .glass-card:hover {
-            transform: translateY(-10px) rotate(2deg);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+        .glass-panel:hover {
+            transform: translateY(-4px);
         }
 
-        /* 2. Gradient Button */
-        .gradient-btn {
+        .elegant-btn {
             padding: 1rem 2rem;
-            font-size: 1.1rem;
+            font-size: 1rem;
             border: none;
-            border-radius: 12px;
+            border-radius: 8px;
             background: linear-gradient(45deg, var(--primary), var(--secondary));
             color: white;
             cursor: pointer;
@@ -70,7 +101,7 @@
             transition: all 0.3s ease;
         }
 
-        .gradient-btn::before {
+        .elegant-btn::after {
             content: '';
             position: absolute;
             top: 0;
@@ -80,166 +111,143 @@
             background: linear-gradient(
                 120deg,
                 transparent,
-                rgba(255, 255, 255, 0.3),
+                rgba(255, 255, 255, 0.2),
                 transparent
             );
             transition: 0.5s;
         }
 
-        .gradient-btn:hover::before {
+        .elegant-btn:hover::after {
             left: 100%;
         }
 
-        /* 3. Modern Loader */
-        .pulse-loader {
-            display: flex;
-            gap: 1rem;
+        /* ===== Typography ===== */
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
         }
 
-        .pulse-loader div {
-            width: 20px;
-            height: 20px;
-            background: var(--primary);
-            border-radius: 50%;
-            animation: pulse 1.2s infinite ease-in-out;
+        h1 {
+            font-size: 2.5rem;
+            line-height: 1.2;
         }
 
-        @keyframes pulse {
-            0%, 80%, 100% { transform: scale(0.5); }
-            40% { transform: scale(1); }
-        }
-
-        /* 4. Animated Input */
-        .floating-input {
-            position: relative;
-            width: 300px;
-            margin: 2rem 0;
-        }
-
-        .floating-input input {
-            width: 100%;
-            padding: 1rem;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            background: transparent;
-            color: var(--text);
-            transition: all 0.3s ease;
-        }
-
-        .floating-input label {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: rgba(255, 255, 255, 0.6);
-            pointer-events: none;
-            transition: all 0.3s ease;
-        }
-
-        .floating-input input:focus ~ label,
-        .floating-input input:valid ~ label {
-            top: -10px;
-            left: 0.8rem;
-            font-size: 0.8rem;
-            color: var(--primary);
-        }
-
-        /* ===== Layout Improvements ===== */
-        section {
-            width: 100%;
+        /* ===== Layout ===== */
+        .container {
             max-width: 1200px;
-            padding: 4rem 0;
-            display: grid;
-            place-items: center;
+            margin: 0 auto;
+            padding: 4rem 2rem;
         }
 
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
-            width: 100%;
-            padding: 2rem;
+            margin: 3rem 0;
         }
 
-        /* ===== Scroll Animations ===== */
-        [data-aos="custom-fade"] {
+        /* ===== Dark Mode Overrides ===== */
+        body.dark-mode {
+            --background: var(--bg-dark);
+            --text: var(--text-dark);
+            --surface: var(--surface-dark);
+            --primary: var(--primary-dark);
+            --secondary: var(--secondary-dark);
+        }
+
+        body.dark-mode .glass-panel {
+            background: rgba(26, 26, 26, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* ===== Animations ===== */
+        [data-aos="fade-up"] {
             opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease;
+            transform: translateY(20px);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        [data-aos="custom-fade"].aos-animate {
+        [data-aos="fade-up"].aos-animate {
             opacity: 1;
             transform: translateY(0);
         }
     </style>
 </head>
 <body>
-    <!-- Hero Section -->
-    <section class="hero">
-        <button class="gradient-btn" data-aos="custom-fade">
-            <i class="fas fa-sparkles"></i> Explore More
-        </button>
+    <!-- Theme Toggle -->
+    <button class="theme-toggle">
+        <i class="fas fa-moon"></i>
+    </button>
 
-        <div class="glass-card" data-aos="custom-fade" data-aos-delay="200">
-            <div class="pulse-loader">
-                <div style="animation-delay: -0.32s"></div>
-                <div style="animation-delay: -0.16s"></div>
-                <div></div>
-            </div>
-            <h2 style="margin: 1.5rem 0;">Creative Solutions</h2>
-            <p>Innovative approaches for modern challenges</p>
+    <!-- Hero Section -->
+    <section class="container">
+        <div class="glass-panel" data-aos="fade-up">
+            <h1>Elegant Design System</h1>
+            <p>A harmonious blend of form and function, crafted for modern experiences.</p>
+            <button class="elegant-btn" style="margin-top: 2rem;">
+                Explore Collection
+            </button>
         </div>
     </section>
 
     <!-- Features Grid -->
-    <section class="features">
+    <section class="container">
         <div class="grid">
-            <div class="glass-card" data-aos="custom-fade">
-                <i class="fas fa-rocket" style="font-size: 2rem; color: var(--primary);"></i>
-                <h3>Fast Performance</h3>
-                <p>Optimized for seamless interactions</p>
+            <div class="glass-panel" data-aos="fade-up">
+                <i class="fas fa-palette" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                <h3>Color Theory</h3>
+                <p>Carefully curated palette for visual harmony</p>
             </div>
 
-            <div class="glass-card" data-aos="custom-fade" data-aos-delay="100">
-                <i class="fas fa-paint-brush" style="font-size: 2rem; color: var(--secondary);"></i>
-                <h3>Beautiful UI</h3>
-                <p>Modern design principles applied</p>
+            <div class="glass-panel" data-aos="fade-up" data-aos-delay="100">
+                <i class="fas fa-magic" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                <h3>Smart Animations</h3>
+                <p>Fluid motion design principles</p>
             </div>
 
-            <div class="glass-card" data-aos="custom-fade" data-aos-delay="200">
-                <i class="fas fa-code" style="font-size: 2rem; color: #3b82f6;"></i>
+            <div class="glass-panel" data-aos="fade-up" data-aos-delay="200">
+                <i class="fas fa-code" style="font-size: 2rem; margin-bottom: 1rem;"></i>
                 <h3>Clean Code</h3>
-                <p>Semantic and maintainable</p>
+                <p>Semantic & maintainable structure</p>
             </div>
-        </div>
-    </section>
-
-    <!-- Contact Form -->
-    <section class="contact">
-        <div class="glass-card" data-aos="custom-fade" style="width: 400px; padding: 2rem;">
-            <h2 style="margin-bottom: 2rem;">Get in Touch</h2>
-            <div class="floating-input">
-                <input type="text" required>
-                <label>Your Name</label>
-            </div>
-            <div class="floating-input">
-                <input type="email" required>
-                <label>Email Address</label>
-            </div>
-            <button class="gradient-btn" style="margin-top: 1rem; width: 100%;">
-                Send Message
-            </button>
         </div>
     </section>
 
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     
     <script>
-        // Initialize AOS with custom settings
+        // Theme Toggle Logic
+        const themeToggle = document.querySelector('.theme-toggle');
+        const body = document.body;
+        let isDark = localStorage.getItem('theme') === 'dark';
+
+        function setTheme() {
+            body.classList.toggle('dark-mode', isDark);
+            themeToggle.innerHTML = isDark ? 
+                '<i class="fas fa-sun"></i>' : 
+                '<i class="fas fa-moon"></i>';
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        }
+
+        // Initialize theme
+        setTheme();
+
+        themeToggle.addEventListener('click', () => {
+            isDark = !isDark;
+            setTheme();
+            
+            // Smooth theme transition
+            gsap.to(body, {
+                duration: 0.5,
+                ease: 'power2.inOut',
+                overwrite: true
+            });
+        });
+
+        // Initialize AOS
         AOS.init({
             duration: 800,
             once: false,
@@ -248,70 +256,37 @@
         });
 
         // GSAP Animations
-        gsap.registerPlugin(ScrollTrigger);
-
-        // Hero section animation
-        gsap.from(".hero > *", {
+        gsap.from(".glass-panel", {
             duration: 1.2,
-            y: 50,
+            y: 40,
             opacity: 0,
             stagger: 0.2,
             ease: "power4.out"
         });
 
-        // Card hover effects
-        gsap.utils.toArray(".glass-card").forEach(card => {
-            card.addEventListener("mousemove", (e) => {
-                const rect = card.getBoundingClientRect();
+        // Button hover effect
+        document.querySelectorAll('.elegant-btn').forEach(btn => {
+            btn.addEventListener('mousemove', (e) => {
+                const rect = btn.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
                 
-                gsap.to(card, {
-                    duration: 0.5,
-                    rotationX: -(y - rect.height/2) / 15,
-                    rotationY: (x - rect.width/2) / 15,
+                gsap.to(btn, {
+                    duration: 0.3,
+                    x: (x - rect.width/2) * 0.1,
+                    y: (y - rect.height/2) * 0.1,
                     ease: "power2.out"
                 });
             });
 
-            card.addEventListener("mouseleave", () => {
-                gsap.to(card, {
-                    duration: 0.8,
-                    rotationX: 0,
-                    rotationY: 0,
+            btn.addEventListener('mouseleave', () => {
+                gsap.to(btn, {
+                    duration: 0.5,
+                    x: 0,
+                    y: 0,
                     ease: "elastic.out(1, 0.5)"
                 });
             });
-        });
-
-        // Parallax effect
-        gsap.utils.toArray("section").forEach((section, i) => {
-            gsap.from(section, {
-                scrollTrigger: {
-                    trigger: section,
-                    start: "top bottom",
-                    toggleActions: "play none none reverse"
-                },
-                y: i % 2 ? -50 : 50,
-                opacity: 0,
-                duration: 1,
-                ease: "power3.out"
-            });
-        });
-
-        // Theme control
-        const root = document.documentElement;
-        const colors = [
-            { primary: "#7c3aed", secondary: "#ec4899" },
-            { primary: "#3b82f6", secondary: "#60a5fa" },
-            { primary: "#10b981", secondary: "#34d399" }
-        ];
-        
-        let currentTheme = 0;
-        document.querySelector('.gradient-btn').addEventListener('click', () => {
-            currentTheme = (currentTheme + 1) % colors.length;
-            root.style.setProperty('--primary', colors[currentTheme].primary);
-            root.style.setProperty('--secondary', colors[currentTheme].secondary);
         });
     </script>
 </body>
