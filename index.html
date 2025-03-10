@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BoylePlays | Scottish GTA V RP Streamer</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- Elfsight Widgets Script -->
     <script src="https://static.elfsight.com/platform/platform.js" async></script>
     <style>
         :root {
@@ -53,6 +52,7 @@
             border-radius: var(--border-radius);
             box-shadow: 0 6px 12px rgba(0,0,0,0.2);
             transition: transform 0.3s;
+            cursor: pointer;
         }
         .card:hover { transform: translateY(-5px); }
         .social-links a {
@@ -90,51 +90,48 @@
     <main class="container">
         <section class="card">
             <h2>🏴 Welcome!</h2>
-            <p>BoylePlays is a casual Scottish Twitch Affiliate streamer known for Grand Theft Auto V & Red Dead Redemption 2 Roleplay. Join for fun, community, and great storytelling.</p>
+            <p>BoylePlays streams immersive GTA V & RDR2 roleplay, emphasizing humour and storytelling from Scotland.</p>
         </section>
 
         <section class="card">
             <h2>Streamer Profile</h2>
             <ul>
                 <li><strong>Status:</strong> Twitch Affiliate (1,300+ followers)</li>
-                <li><strong>Occupation:</strong> Full-time Chef (Streaming is a hobby)</li>
-                <li><strong>Schedule:</strong> Most evenings UK time (around chef shifts)</li>
+                <li><strong>Occupation:</strong> Chef by day, streamer by night</li>
+                <li><strong>Schedule:</strong> Mostly evenings (UK time)</li>
             </ul>
         </section>
 
         <section>
-            <h2>Select RP Community</h2>
-            <button class="btn" onclick="showCharacters('gta')">GTA V RP</button>
-            <button class="btn" onclick="showCharacters('rdr')">Red Dead RP</button>
-            <div id="characters" class="grid"></div>
+            <h2>Explore My RP Journey</h2>
+            <div id="rp-container" class="grid"></div>
+            <button id="backBtn" class="btn" style="display:none;" onclick="goBack()">Go Back</button>
         </section>
 
         <section>
-            <h2>My Gaming PC Specs</h2>
+            <h2>Gaming PC Setup</h2>
             <div class="grid">
-                <div class="card"><strong>Case:</strong> Corsair Crystal 680X RGB</div>
-                <div class="card"><strong>CPU:</strong> AMD Ryzen Threadripper 3970X (32-Core)</div>
-                <div class="card"><strong>GPU:</strong> NVIDIA RTX 3070 Ti</div>
-                <div class="card"><strong>RAM:</strong> 32GB DDR4 Corsair Vengeance</div>
-                <div class="card"><strong>Storage:</strong> 3x 2TB HDD | 2x 1TB M.2 SSD</div>
-                <div class="card"><strong>Cooling:</strong> PCS FrostFlow RGB Liquid Cooler</div>
+                <div class="card">Case: Corsair Crystal 680X RGB</div>
+                <div class="card">CPU: AMD Ryzen Threadripper 3970X (32-Core)</div>
+                <div class="card">GPU: NVIDIA RTX 3070 Ti</div>
+                <div class="card">RAM: 32GB DDR4 Corsair Vengeance</div>
+                <div class="card">Storage: 3x 2TB HDD, 2x 1TB M.2 SSD</div>
+                <div class="card">Cooling: PCS FrostFlow RGB Liquid Cooler</div>
             </div>
         </section>
 
         <section>
             <h2>Latest TikTok Clips</h2>
-            <!-- Elfsight TikTok Feed | Boyleplays TikTok -->
             <div class="elfsight-app-b330b5c3-eb4d-44a6-b898-9f2dd08459fc" data-elfsight-app-lazy></div>
         </section>
 
         <section>
             <h2>Latest YouTube Shorts</h2>
-            <!-- Elfsight YouTube Gallery | Boyleplays YouTube Shorts -->
             <div class="elfsight-app-1e1d284b-64fc-4686-bf61-457f9a245bee" data-elfsight-app-lazy></div>
         </section>
 
         <section>
-            <h2>Social Media</h2>
+            <h2>Social Links</h2>
             <div class="social-links card">
                 <a href="https://twitch.tv/BoylePlays"><i class="fab fa-twitch"></i></a>
                 <a href="https://x.com/boyleplays"><i class="fab fa-twitter"></i></a>
@@ -145,34 +142,27 @@
         </section>
 
         <section class="card">
-            <blockquote>
-                "BoylePlays brings authentic Scottish humour and immersive storytelling to GTA RP."
-                <br>— <em>Edinburgh Reviews</em>
-            </blockquote>
+            <blockquote>"BoylePlays brings authentic Scottish humour to GTA RP."<br>— Edinburgh Reviews</blockquote>
         </section>
     </main>
 
-    <footer>
-        © 2025 BoylePlays | Designed & built in Scotland.
-    </footer>
+    <footer>© 2025 BoylePlays | Designed & built in Scotland.</footer>
 
     <script>
-        const chars = {
-            gta: [
-                {name: "Viktor Reznov", server: "MomentsRP"},
-                {name: "Vinnie Boyle", server: "Scora Network"},
-                {name: "Reece Dempsey", server: "Prodigy RP"}
-            ],
-            rdr: [{name: 'Jack "Dusty" Roberts', server: "Syn County"}]
-        };
-        function showCharacters(type) {
-            const cont = document.getElementById('characters');
-            cont.innerHTML = '';
-            chars[type].forEach(c => {
-                cont.innerHTML += `<div class="card"><h3>${c.name}</h3><p>Server: ${c.server}</p></div>`;
-            });
-        }
-        document.addEventListener('DOMContentLoaded', () => showCharacters('gta'));
+    // Interactive RP Character Navigation
+    const data = {
+        gta: { name: 'GTA V RP', servers: { "MomentsRP": [{name:"Viktor Reznov", story:"Legendary criminal from Glasgow."}], "Scora Network":[{name:"Jamie kay", story:"Humorous gangster."}], "Prodigy RP":[{name:"Shaun ramos", story:"Charismatic citizen."}]}},
+        rdr: { name: 'Red Dead RP', servers: {"Syn County":[{name:'Jack "Dusty" Roberts', story:"Emerging outlaw storyteller."}]}}
+    };
+    let historyStack=[];
+    const cont=document.getElementById('rp-container'),backBtn=document.getElementById('backBtn');
+    function renderCards(items){cont.innerHTML='';items.forEach(i=>{const c=document.createElement('div');c.className='card';c.innerHTML=`<h3>${i.title}</h3>`;c.onclick=i.onclick;cont.appendChild(c);});backBtn.style.display=historyStack.length?'inline-block':'none';}
+    function showRPs(){historyStack=[];renderCards([{title:data.gta.name,onclick:()=>showServers('gta')},{title:data.rdr.name,onclick:()=>showServers('rdr')}]);}
+    function showServers(rp){historyStack.push(showRPs);renderCards(Object.keys(data[rp].servers).map(s=>({title:s,onclick:()=>showChars(rp,s)})));}
+    function showChars(rp,s){historyStack.push(()=>showServers(rp));renderCards(data[rp].servers[s].map(c=>({title:c.name,onclick:()=>showStory(c,rp,s)})));}
+    function showStory(c,rp,s){historyStack.push(()=>showChars(rp,s));cont.innerHTML=`<div class="card"><h3>${c.name}</h3><p>${c.story}</p></div>`;backBtn.style.display='inline-block';}
+    function goBack(){if(historyStack.length){historyStack.pop()();}}
+    document.addEventListener('DOMContentLoaded',showRPs);
     </script>
 </body>
 </html>
