@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BoylePlays | Scottish GTA V Roleplay Streamer</title>
+    <title>BoylePlays | Scottish GTA V RP Streamer</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <script src="https://apps.elfsight.com/p/platform.js" defer></script>
+    <!-- Elfsight Widgets Script -->
+    <script src="https://static.elfsight.com/platform/platform.js" async></script>
     <style>
         :root {
             --main-color: #4B9CD3;
@@ -28,16 +29,16 @@
             padding: 2rem;
         }
         .badge {
-            background-color: var(--accent-color);
+            background: var(--accent-color);
             color: var(--dark-bg);
             padding: 0.5rem 1rem;
             border-radius: 25px;
-            margin-top: 1rem;
             display: inline-block;
+            margin-top: 1rem;
         }
         .container {
             max-width: 1200px;
-            padding: 2rem;
+            padding: 1rem;
             margin: auto;
         }
         section { margin-bottom: 2rem; }
@@ -50,7 +51,7 @@
             background: var(--card-bg);
             padding: 1rem;
             border-radius: var(--border-radius);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
             transition: transform 0.3s;
         }
         .card:hover { transform: translateY(-5px); }
@@ -89,29 +90,30 @@
     <main class="container">
         <section class="card">
             <h2>🏴 Welcome!</h2>
-            <p>BoylePlays is a Scottish Twitch Affiliate streamer known for humorous and immersive GTA V & RDR2 roleplay content. Streams are community-focused and casual.</p>
+            <p>BoylePlays is a casual Scottish Twitch Affiliate streamer known for Grand Theft Auto V & Red Dead Redemption 2 Roleplay. Join for fun, community, and great storytelling.</p>
         </section>
 
         <section class="card">
-            <h2>Streaming Info</h2>
+            <h2>Streamer Profile</h2>
             <ul>
                 <li><strong>Status:</strong> Twitch Affiliate (1,300+ followers)</li>
-                <li><strong>Schedule:</strong> Most evenings (UK Time), no fixed schedule due to chef commitments.</li>
+                <li><strong>Occupation:</strong> Full-time Chef (Streaming is a hobby)</li>
+                <li><strong>Schedule:</strong> Most evenings UK time (around chef shifts)</li>
             </ul>
         </section>
 
         <section>
-            <h2>Choose Your RP Adventure</h2>
+            <h2>Select RP Community</h2>
             <button class="btn" onclick="showCharacters('gta')">GTA V RP</button>
             <button class="btn" onclick="showCharacters('rdr')">Red Dead RP</button>
             <div id="characters" class="grid"></div>
         </section>
 
         <section>
-            <h2>Gaming Setup</h2>
+            <h2>My Gaming PC Specs</h2>
             <div class="grid">
                 <div class="card"><strong>Case:</strong> Corsair Crystal 680X RGB</div>
-                <div class="card"><strong>CPU:</strong> AMD Threadripper 3970X (32-Core)</div>
+                <div class="card"><strong>CPU:</strong> AMD Ryzen Threadripper 3970X (32-Core)</div>
                 <div class="card"><strong>GPU:</strong> NVIDIA RTX 3070 Ti</div>
                 <div class="card"><strong>RAM:</strong> 32GB DDR4 Corsair Vengeance</div>
                 <div class="card"><strong>Storage:</strong> 3x 2TB HDD | 2x 1TB M.2 SSD</div>
@@ -120,9 +122,15 @@
         </section>
 
         <section>
-            <h2>Latest Clips</h2>
-            <!-- Elfsight Widget (automatic TikTok/YouTube updates) -->
-            <div class="elfsight-app-yourwidgetid"></div>
+            <h2>Latest TikTok Clips</h2>
+            <!-- Elfsight TikTok Feed | Boyleplays TikTok -->
+            <div class="elfsight-app-b330b5c3-eb4d-44a6-b898-9f2dd08459fc" data-elfsight-app-lazy></div>
+        </section>
+
+        <section>
+            <h2>Latest YouTube Shorts</h2>
+            <!-- Elfsight YouTube Gallery | Boyleplays YouTube Shorts -->
+            <div class="elfsight-app-1e1d284b-64fc-4686-bf61-457f9a245bee" data-elfsight-app-lazy></div>
         </section>
 
         <section>
@@ -137,12 +145,15 @@
         </section>
 
         <section class="card">
-            <blockquote>"BoylePlays brings authentic Scottish humour and immersive storytelling to GTA RP."<br>— <em>Edinburgh Reviews</em></blockquote>
+            <blockquote>
+                "BoylePlays brings authentic Scottish humour and immersive storytelling to GTA RP."
+                <br>— <em>Edinburgh Reviews</em>
+            </blockquote>
         </section>
     </main>
 
     <footer>
-        © 2025 BoylePlays. Designed & built in Scotland.
+        © 2025 BoylePlays | Designed & built in Scotland.
     </footer>
 
     <script>
