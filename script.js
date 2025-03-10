@@ -24,13 +24,13 @@ function renderCards(items) {
         items.forEach(i => {
             const card = document.createElement('div');
             card.className = 'card';
-            card.textContent = i.name;
+            card.innerHTML = `<h3>${i.name}</h3>`;
             card.onclick = i.onclick;
             container.appendChild(card);
         });
         container.style.transition = 'opacity 0.5s ease';
         container.style.opacity = 1;
-    }, 150);
+    }, 200);
     backBtn.style.display = history.length ? 'inline-block' : 'none';
 }
 
@@ -44,22 +44,22 @@ function showRPs() {
 
 function showServers(type) {
     history.push(showRPs);
-    renderCards(Object.keys(rpData[type].servers).map(server=>({
-        name:server,
-        onclick:()=>showCharacters(type,server)
+    renderCards(Object.keys(rpData[type].servers).map(server => ({
+        name: server,
+        onclick: () => showCharacters(type, server)
     })));
 }
 
-function showCharacters(type,server) {
-    history.push(()=>showServers(type));
-    renderCards(rpData[type].servers[server].map(char=>({
-        name:char.name,
-        onclick:()=>showStory(char,type,server)
+function showCharacters(type, server) {
+    history.push(() => showServers(type));
+    renderCards(rpData[type].servers[server].map(char => ({
+        name: char.name,
+        onclick: () => showStory(char, type, server)
     })));
 }
 
-function showStory(char,type,server) {
-    history.push(()=>showCharacters(type,server));
+function showStory(char, type, server) {
+    history.push(() => showCharacters(type, server));
     container.style.opacity = 0;
     setTimeout(() => {
         container.innerHTML = `
@@ -68,12 +68,14 @@ function showStory(char,type,server) {
                 <p>${char.story}</p>
             </div>`;
         container.style.opacity = 1;
-    }, 150);
+    }, 200);
     backBtn.style.display = 'inline-block';
 }
 
 function goBack() {
-    if(history.length) history.pop()();
+    if (history.length) {
+        history.pop()();
+    }
 }
 
 document.addEventListener('DOMContentLoaded', showRPs);
