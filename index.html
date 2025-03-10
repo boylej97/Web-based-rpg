@@ -4,150 +4,164 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BoylePlays | Scottish GTA V Roleplay Streamer</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://apps.elfsight.com/p/platform.js" defer></script>
     <style>
         :root {
-            --main-color: #4B9CD3;    /* Scottish blue */
-            --accent-color: #DAA520;  /* Chef's gold */
-            --dark-bg: #1a1a1a;
-            --text-light: #f4f4f4;
+            --main-color: #4B9CD3;
+            --accent-color: #FFBF00;
+            --dark-bg: #121212;
+            --card-bg: #1e1e1e;
+            --text-light: #EAEAEA;
+            --border-radius: 12px;
         }
-
         body {
-            background-color: var(--dark-bg);
+            background: var(--dark-bg);
             color: var(--text-light);
             font-family: 'Helvetica Neue', sans-serif;
-            line-height: 1.6;
+            margin: 0;
+            line-height: 1.7;
         }
-
-        /* Scottish Flag Header */
-        .header {
-            background: linear-gradient(160deg, #005EB8 50%, var(--main-color) 50%);
-            padding: 2rem;
+        header {
+            background: linear-gradient(145deg, #005EB8, var(--main-color));
             text-align: center;
-            position: relative;
+            padding: 2rem;
         }
-
-        /* Chef/Streamer Dual Identity Badge */
-        .identity-badge {
-            background: var(--accent-color);
+        .badge {
+            background-color: var(--accent-color);
             color: var(--dark-bg);
             padding: 0.5rem 1rem;
             border-radius: 25px;
+            margin-top: 1rem;
             display: inline-block;
-            margin: 1rem 0;
         }
-
-        /* RP Character Cards */
-        .character-card {
-            background: rgba(255,255,255,0.1);
-            border-radius: 15px;
-            padding: 1.5rem;
-            margin: 1rem 0;
-            border-left: 5px solid var(--main-color);
+        .container {
+            max-width: 1200px;
+            padding: 2rem;
+            margin: auto;
         }
-
-        /* Hardware Spec Grid */
-        .spec-grid {
+        section { margin-bottom: 2rem; }
+        .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 1rem;
-            padding: 2rem;
-            background: rgba(0,0,0,0.3);
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
         }
-
-        .spec-item {
-            background: var(--dark-bg);
+        .card {
+            background: var(--card-bg);
             padding: 1rem;
-            border-radius: 10px;
-            border: 1px solid var(--main-color);
+            border-radius: var(--border-radius);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+            transition: transform 0.3s;
         }
-
-        /* Community Section */
-        .community-section {
-            background: url('scottish-tartan-pattern.png');
-            padding: 2rem;
+        .card:hover { transform: translateY(-5px); }
+        .social-links a {
+            color: var(--text-light);
+            margin-right: 15px;
+            font-size: 1.6rem;
+            transition: color 0.3s;
+        }
+        .social-links a:hover { color: var(--main-color); }
+        footer {
             text-align: center;
+            padding: 1rem;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            margin-top: 2rem;
         }
+        .btn {
+            padding: 0.8rem 1.6rem;
+            background: var(--main-color);
+            color: var(--text-light);
+            border: none;
+            cursor: pointer;
+            border-radius: var(--border-radius);
+            transition: background 0.3s;
+        }
+        .btn:hover { background: #005EB8; }
     </style>
 </head>
 <body>
-    <header class="header">
+    <header>
         <h1>BoylePlays</h1>
-        <div class="identity-badge">
-            🎮 Full-Time Chef | Part-Time Roleplayer �
-        </div>
+        <div class="badge">🎮 Full-Time Chef | Part-Time Streamer</div>
     </header>
 
     <main class="container">
-        <!-- About Section -->
-        <section class="about-section">
-            <h2>🏴󠁧󠁢󠁳󠁣󠁴󠁩 Welcome to My Stream! 🎮</h2>
-            <p>Casual GTA V RP streams from the heart of Scotland! Join me for:</p>
+        <section class="card">
+            <h2>🏴 Welcome!</h2>
+            <p>BoylePlays is a Scottish Twitch Affiliate streamer known for humorous and immersive GTA V & RDR2 roleplay content. Streams are community-focused and casual.</p>
+        </section>
+
+        <section class="card">
+            <h2>Streaming Info</h2>
             <ul>
-                <li>🤣 Humorous roleplay scenarios</li>
-                <li>📖 Immersive character stories</li>
-                <li>👥 Community-driven content</li>
+                <li><strong>Status:</strong> Twitch Affiliate (1,300+ followers)</li>
+                <li><strong>Schedule:</strong> Most evenings (UK Time), no fixed schedule due to chef commitments.</li>
             </ul>
         </section>
 
-        <!-- Current Characters -->
-        <section class="characters">
-            <div class="character-card">
-                <h3>Viktor Reznov</h3>
-                <p>🎭 MomentsRP (GTA V)</p>
-                <p>🔹 Former Scora Network/Prodigy RP veteran</p>
-            </div>
+        <section>
+            <h2>Choose Your RP Adventure</h2>
+            <button class="btn" onclick="showCharacters('gta')">GTA V RP</button>
+            <button class="btn" onclick="showCharacters('rdr')">Red Dead RP</button>
+            <div id="characters" class="grid"></div>
+        </section>
 
-            <div class="character-card">
-                <h3>Jack "Dusty" Roberts</h3>
-                <p>🤠 Syn County (RDR2 RP)</p>
-                <p>🔹 Emerging wild west personality</p>
+        <section>
+            <h2>Gaming Setup</h2>
+            <div class="grid">
+                <div class="card"><strong>Case:</strong> Corsair Crystal 680X RGB</div>
+                <div class="card"><strong>CPU:</strong> AMD Threadripper 3970X (32-Core)</div>
+                <div class="card"><strong>GPU:</strong> NVIDIA RTX 3070 Ti</div>
+                <div class="card"><strong>RAM:</strong> 32GB DDR4 Corsair Vengeance</div>
+                <div class="card"><strong>Storage:</strong> 3x 2TB HDD | 2x 1TB M.2 SSD</div>
+                <div class="card"><strong>Cooling:</strong> PCS FrostFlow RGB Liquid Cooler</div>
             </div>
         </section>
 
-        <!-- Streaming Info -->
-        <section class="stream-info">
-            <h2>📅 Streaming Schedule</h2>
-            <p>⏰ Evening streams (UK time) around chef shifts<br>
-            🔔 Follow <a href="https://twitter.com/BoylePlays">Twitter</a> for daily updates</p>
+        <section>
+            <h2>Latest Clips</h2>
+            <!-- Elfsight Widget (automatic TikTok/YouTube updates) -->
+            <div class="elfsight-app-yourwidgetid"></div>
         </section>
 
-        <!-- Hardware Specs -->
-        <section class="spec-grid">
-            <div class="spec-item">
-                <h4>🖥️ Corsair 680X RGB Case</h4>
-                <p>32-Core Threadripper 3970X</p>
-            </div>
-            <div class="spec-item">
-                <h4>🎮 RTX 3070 Ti</h4>
-                <p>32GB DDR4 | 8TB Storage</p>
-            </div>
-            <div class="spec-item">
-                <h4>❄️ FrostFlow Cooling</h4>
-                <p>Dual SSD Performance</p>
+        <section>
+            <h2>Social Media</h2>
+            <div class="social-links card">
+                <a href="https://twitch.tv/BoylePlays"><i class="fab fa-twitch"></i></a>
+                <a href="https://x.com/boyleplays"><i class="fab fa-twitter"></i></a>
+                <a href="https://youtube.com/@boyleplays"><i class="fab fa-youtube"></i></a>
+                <a href="https://tiktok.com/@boyleplays"><i class="fab fa-tiktok"></i></a>
+                <a href="https://instagram.com/boyleplays"><i class="fab fa-instagram"></i></a>
             </div>
         </section>
 
-        <!-- Community Recognition -->
-        <section class="community-section">
-            <blockquote>
-                "BoylePlays brings authentic Scottish humor to GTA RP"
-                <footer>- Edinburgh Reviews</footer>
-            </blockquote>
-        </section>
-
-        <!-- Social Links -->
-        <section class="social-links">
-            <a href="https://twitch.tv/BoylePlays"><i class="fab fa-twitch"></i></a>
-            <a href="https://twitter.com/BoylePlays"><i class="fab fa-twitter"></i></a>
-            <a href="https://youtube.com/@boyleplays"><i class="fab fa-youtube"></i></a>
-            <a href="https://tiktok.com/@boyleplays"><i class="fab fa-tiktok"></i></a>
+        <section class="card">
+            <blockquote>"BoylePlays brings authentic Scottish humour and immersive storytelling to GTA RP."<br>— <em>Edinburgh Reviews</em></blockquote>
         </section>
     </main>
 
     <footer>
-        <p>🎥 Part-time streamer, full-time chef - Thanks for stopping by! 👨🍳</p>
+        © 2025 BoylePlays. Designed & built in Scotland.
     </footer>
+
+    <script>
+        const chars = {
+            gta: [
+                {name: "Viktor Reznov", server: "MomentsRP"},
+                {name: "Vinnie Boyle", server: "Scora Network"},
+                {name: "Reece Dempsey", server: "Prodigy RP"}
+            ],
+            rdr: [{name: 'Jack "Dusty" Roberts', server: "Syn County"}]
+        };
+        function showCharacters(type) {
+            const cont = document.getElementById('characters');
+            cont.innerHTML = '';
+            chars[type].forEach(c => {
+                cont.innerHTML += `<div class="card"><h3>${c.name}</h3><p>Server: ${c.server}</p></div>`;
+            });
+        }
+        document.addEventListener('DOMContentLoaded', () => showCharacters('gta'));
+    </script>
 </body>
 </html>
