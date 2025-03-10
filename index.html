@@ -1,81 +1,76 @@
-<script>
-    const rpData = {
-        gta: {
-            servers: {
-                "MomentsRP": [{name:"Viktor Reznov", story:"Legendary criminal from Glasgow."}],
-                "Scora Network": [{name:"Vinnie Boyle", story:"Funny gangster."}],
-                "Prodigy RP": [{name:"Reece Dempsey", story:"Community-oriented citizen."}]
-            }
-        },
-        rdr: {
-            servers: {
-                "Syn County": [{name:'Jack "Dusty" Roberts', story:"Emerging storyteller in the wild west."}]
-            }
-        }
-    };
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BoylePlays | Scottish GTA V RP Streamer</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://static.elfsight.com/platform/platform.js" async></script>
+</head>
+<body>
+    <header>
+        <h1>BoylePlays</h1>
+        <div class="badge">🎮 Full-Time Chef | Part-Time Streamer</div>
+    </header>
 
-    const container = document.getElementById('rp-container');
-    const backBtn = document.getElementById('backBtn');
-    let history = [];
+    <main class="container">
+        <section class="card">
+            <h2>🏴 Welcome!</h2>
+            <p>BoylePlays streams immersive GTA V & RDR2 roleplay, filled with Scottish humour and storytelling.</p>
+        </section>
 
-    function renderCards(items) {
-        container.style.opacity = 0;
-        setTimeout(() => {
-            container.innerHTML = '';
-            items.forEach(item => {
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.innerHTML = `<h3>${item.name}</h3>`;
-                card.onclick = item.onclick;
-                container.appendChild(card);
-            });
-            container.style.transition = 'opacity 0.5s ease-in-out';
-            container.style.opacity = 1;
-        }, 200);
-        backBtn.style.display = history.length ? 'inline-block' : 'none';
-    }
+        <section class="card">
+            <h2>Streamer Info</h2>
+            <ul>
+                <li><strong>Status:</strong> Twitch Affiliate (1,300+ followers)</li>
+                <li><strong>Occupation:</strong> Chef by day, streamer by night</li>
+                <li><strong>Schedule:</strong> Casual evenings (UK)</li>
+            </ul>
+        </section>
 
-    function showRPs() {
-        history = [];
-        renderCards([
-            {name:'GTA V RP', onclick:()=>showServers('gta')},
-            {name:'Red Dead RP', onclick:()=>showServers('rdr')}
-        ]);
-    }
+        <section>
+            <h2>Explore My RP Journey</h2>
+            <div id="rp-container" class="grid"></div>
+            <button id="backBtn" class="btn" onclick="goBack()" style="display:none;">Go Back</button>
+        </section>
 
-    function showServers(type) {
-        history.push(showRPs);
-        renderCards(Object.keys(rpData[type].servers).map(server => ({
-            name: server, onclick:()=>showCharacters(type, server)
-        })));
-    }
+        <section>
+            <h2>Gaming PC Specs</h2>
+            <div class="grid">
+                <div class="card">Case: Corsair Crystal 680X RGB</div>
+                <div class="card">CPU: AMD Ryzen Threadripper 3970X (32-Core)</div>
+                <div class="card">GPU: NVIDIA RTX 3070 Ti</div>
+                <div class="card">RAM: 32GB DDR4 Corsair Vengeance</div>
+                <div class="card">Storage: 3x 2TB HDD, 2x 1TB M.2 SSD</div>
+                <div class="card">Cooling: PCS FrostFlow RGB Liquid Cooler</div>
+            </div>
+        </section>
 
-    function showCharacters(type, server) {
-        history.push(()=>showServers(type));
-        renderCards(rpData[type].servers[server].map(char=>({
-            name: char.name,
-            onclick:()=>showStory(char, type, server)
-        })));
-    }
+        <section>
+            <h2>Latest TikTok Clips</h2>
+            <div class="elfsight-app-b330b5c3-eb4d-44a6-b898-9f2dd08459fc"></div>
+        </section>
 
-    function showStory(char, type, server) {
-        history.push(()=>showCharacters(type,server));
-        container.style.opacity = 0;
-        setTimeout(() => {
-            container.innerHTML=`
-                <div class="card">
-                    <h3>${char.name}</h3>
-                    <p>${char.story}</p>
-                </div>`;
-            container.style.transition = 'opacity 0.5s ease-in-out';
-            container.style.opacity = 1;
-        }, 200);
-        backBtn.style.display='inline-block';
-    }
+        <section>
+            <h2>Latest YouTube Shorts</h2>
+            <div class="elfsight-app-1e1d284b-64fc-4686-bf61-457f9a245bee"></div>
+        </section>
 
-    function goBack() {
-        if(history.length) history.pop()();
-    }
+        <section>
+            <h2>Social Links</h2>
+            <div class="social-links card">
+                <a href="https://twitch.tv/BoylePlays"><i class="fab fa-twitch"></i></a>
+                <a href="https://x.com/boyleplays"><i class="fab fa-twitter"></i></a>
+                <a href="https://youtube.com/@boyleplays"><i class="fab fa-youtube"></i></a>
+                <a href="https://tiktok.com/@boyleplays"><i class="fab fa-tiktok"></i></a>
+                <a href="https://instagram.com/boyleplays"><i class="fab fa-instagram"></i></a>
+            </div>
+        </section>
+    </main>
 
-    document.addEventListener('DOMContentLoaded', showRPs);
-</script>
+    <footer>© 2025 BoylePlays | Designed & built in Scotland.</footer>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
