@@ -47,14 +47,16 @@
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
         }
         .card {
-            background: var(--card-bg);
+            background: #1e1e1e;
             padding: 1rem;
-            border-radius: var(--border-radius);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-            transition: transform 0.3s;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
             cursor: pointer;
+            transition: transform 0.3s;
         }
-        .card:hover { transform: translateY(-5px); }
+        .card:hover {
+            transform: translateY(-10px);
+        }
         .social-links a {
             color: var(--text-light);
             margin-right: 15px;
@@ -76,9 +78,9 @@
             border: none;
             cursor: pointer;
             border-radius: var(--border-radius);
-            transition: background 0.3s;
+            transition: transform 0.3s;
         }
-        .btn:hover { background: #005EB8; }
+        .btn:hover { transform: scale(1.1); }
     </style>
 </head>
 <body>
@@ -90,26 +92,26 @@
     <main class="container">
         <section class="card">
             <h2>🏴 Welcome!</h2>
-            <p>BoylePlays streams immersive GTA V & RDR2 roleplay, emphasizing humour and storytelling from Scotland.</p>
+            <p>BoylePlays streams immersive GTA V & RDR2 roleplay, filled with Scottish humour and storytelling.</p>
         </section>
 
         <section class="card">
-            <h2>Streamer Profile</h2>
+            <h2>Streamer Info</h2>
             <ul>
                 <li><strong>Status:</strong> Twitch Affiliate (1,300+ followers)</li>
                 <li><strong>Occupation:</strong> Chef by day, streamer by night</li>
-                <li><strong>Schedule:</strong> Mostly evenings (UK time)</li>
+                <li><strong>Schedule:</strong> Casual evenings (UK)</li>
             </ul>
         </section>
 
         <section>
             <h2>Explore My RP Journey</h2>
             <div id="rp-container" class="grid"></div>
-            <button id="backBtn" class="btn" style="display:none;" onclick="goBack()">Go Back</button>
+            <button id="backBtn" class="btn" onclick="goBack()" style="display:none;">Go Back</button>
         </section>
 
         <section>
-            <h2>Gaming PC Setup</h2>
+            <h2>Gaming PC Specs</h2>
             <div class="grid">
                 <div class="card">Case: Corsair Crystal 680X RGB</div>
                 <div class="card">CPU: AMD Ryzen Threadripper 3970X (32-Core)</div>
@@ -122,12 +124,12 @@
 
         <section>
             <h2>Latest TikTok Clips</h2>
-            <div class="elfsight-app-b330b5c3-eb4d-44a6-b898-9f2dd08459fc" data-elfsight-app-lazy></div>
+            <div class="elfsight-app-b330b5c3-eb4d-44a6-b898-9f2dd08459fc"></div>
         </section>
 
         <section>
             <h2>Latest YouTube Shorts</h2>
-            <div class="elfsight-app-1e1d284b-64fc-4686-bf61-457f9a245bee" data-elfsight-app-lazy></div>
+            <div class="elfsight-app-1e1d284b-64fc-4686-bf61-457f9a245bee"></div>
         </section>
 
         <section>
@@ -140,29 +142,25 @@
                 <a href="https://instagram.com/boyleplays"><i class="fab fa-instagram"></i></a>
             </div>
         </section>
-
-        <section class="card">
-            <blockquote>"BoylePlays brings authentic Scottish humour to GTA RP."<br>— Edinburgh Reviews</blockquote>
-        </section>
     </main>
 
     <footer>© 2025 BoylePlays | Designed & built in Scotland.</footer>
 
+    <!-- Interactive RP Navigation -->
     <script>
-    // Interactive RP Character Navigation
-    const data = {
-        gta: { name: 'GTA V RP', servers: { "MomentsRP": [{name:"Viktor Reznov", story:"Legendary criminal from Glasgow."}], "Scora Network":[{name:"Jamie kay", story:"Humorous gangster."}], "Prodigy RP":[{name:"Shaun ramos", story:"Charismatic citizen."}]}},
-        rdr: { name: 'Red Dead RP', servers: {"Syn County":[{name:'Jack "Dusty" Roberts', story:"Emerging outlaw storyteller."}]}}
-    };
-    let historyStack=[];
-    const cont=document.getElementById('rp-container'),backBtn=document.getElementById('backBtn');
-    function renderCards(items){cont.innerHTML='';items.forEach(i=>{const c=document.createElement('div');c.className='card';c.innerHTML=`<h3>${i.title}</h3>`;c.onclick=i.onclick;cont.appendChild(c);});backBtn.style.display=historyStack.length?'inline-block':'none';}
-    function showRPs(){historyStack=[];renderCards([{title:data.gta.name,onclick:()=>showServers('gta')},{title:data.rdr.name,onclick:()=>showServers('rdr')}]);}
-    function showServers(rp){historyStack.push(showRPs);renderCards(Object.keys(data[rp].servers).map(s=>({title:s,onclick:()=>showChars(rp,s)})));}
-    function showChars(rp,s){historyStack.push(()=>showServers(rp));renderCards(data[rp].servers[s].map(c=>({title:c.name,onclick:()=>showStory(c,rp,s)})));}
-    function showStory(c,rp,s){historyStack.push(()=>showChars(rp,s));cont.innerHTML=`<div class="card"><h3>${c.name}</h3><p>${c.story}</p></div>`;backBtn.style.display='inline-block';}
-    function goBack(){if(historyStack.length){historyStack.pop()();}}
-    document.addEventListener('DOMContentLoaded',showRPs);
+        const rpData = {
+            gta: {servers: {"MomentsRP":[{name:"Viktor Reznov",story:"Legendary criminal."}], "Scora Network":[{name:"Vinnie Boyle",story:"Funny gangster."}], "Prodigy RP":[{name:"Reece Dempsey",story:"Community-oriented citizen."}]}},
+            rdr: {servers: {"Syn County":[{name:'Jack "Dusty" Roberts',story:"Emerging storyteller in the wild west."}]}}
+        };
+        let history = [];
+        const container=document.getElementById('rp-container'), backBtn=document.getElementById('backBtn');
+        function render(items){container.innerHTML='';items.forEach(i=>{container.innerHTML+=`<div class="card" onclick="${i.onclick}">${i.name}</div>`;});backBtn.style.display=history.length?'inline-block':'none';}
+        function showRPs(){history=[];render([{name:'GTA V RP',onclick:()=>showServers('gta')},{name:'Red Dead RP',onclick:()=>showServers('rdr')}]);}
+        function showServers(type){history.push(showRPs);render(Object.keys(rpData[type].servers).map(s=>({name:s,onclick:()=>showChars(type,s)})));}
+        function showChars(type,server){history.push(()=>showServers(type));render(rpData[type].servers[server].map(c=>({name:c.name,onclick:()=>showStory(c,type,s)})));}
+        function showStory(c,type,server){history.push(()=>showChars(type,server));container.innerHTML=`<div class="card"><h3>${c.name}</h3><p>${c.story}</p></div>`;backBtn.style.display='inline-block';}
+        function goBack(){if(history.length) history.pop()();}
+        document.addEventListener('DOMContentLoaded', showRPs);
     </script>
 </body>
 </html>
