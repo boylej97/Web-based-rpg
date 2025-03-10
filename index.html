@@ -3,198 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StreamerName | Live Gaming</title>
+    <title>Boyleplays - Professional FPS/RPG Streamer</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            --primary: #9147ff;
-            --secondary: #772ce8;
-            --dark: #0e0e10;
-            --light: #ffffff;
+            --neon-blue: #0066ff;
+            --cyber-teal: #00fffc;
+            --deep-space: #0a0a2e;
+            --starlight: #e6f1ff;
+            --streamer-purple: #9147ff;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
-        }
-
+        /* Custom Boyleplays Theme */
         body {
-            background-color: var(--dark);
-            color: var(--light);
+            background: var(--deep-space);
+            color: var(--starlight);
+            font-family: 'Oxanium', 'Segoe UI', sans-serif;
         }
 
-        /* Navigation */
-        .navbar {
-            padding: 1rem 5%;
-            background: rgba(14, 14, 16, 0.95);
-            backdrop-filter: blur(10px);
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        /* Boyleplays Header */
+        .boyle-header {
+            background: linear-gradient(135deg, 
+                var(--deep-space) 40%, 
+                var(--neon-blue) 100%);
+            border-bottom: 3px solid var(--cyber-teal);
         }
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--primary);
+        /* Game-Specific Styling */
+        .cod-theme { background: #2a2a2a; border-color: #d22e2e; }
+        .apex-theme { background: #831010; border-color: #ff4655; }
+        .fortnite-theme { background: #3b5998; border-color: #f99e1a; }
+        .baldurs-theme { background: #2c1e30; border-color: #a679d2; }
+
+        /* Hardware Showcase */
+        .boyle-rig {
+            background: rgba(0, 102, 255, 0.05);
+            border: 2px solid var(--cyber-teal);
+            box-shadow: 0 0 25px rgba(0, 255, 252, 0.1);
         }
 
-        .nav-links a {
-            color: var(--light);
-            text-decoration: none;
-            margin-left: 2rem;
-            transition: color 0.3s;
-        }
-
-        /* Hero Section */
-        .hero {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            background: linear-gradient(45deg, var(--dark), var(--secondary));
-            padding: 0 5%;
-        }
-
-        .hero-content h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-        }
-
-        /* Stream Container */
-        .stream-container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 2rem auto;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 0 30px rgba(145, 71, 255, 0.2);
-        }
-
-        /* Schedule Section */
-        .schedule {
-            padding: 4rem 5%;
-            background: #1a1a1c;
-        }
-
-        .schedule-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        /* Custom Button from uiverse */
-        .btn {
+        /* Boyleplays Schedule */
+        .boyle-schedule td {
+            border-color: var(--streamer-purple);
             padding: 1rem 2rem;
-            border: none;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .btn-primary {
-            background: var(--primary);
-            color: var(--light);
-        }
-
-        /* Social Links */
-        .social-links {
-            display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            margin-top: 2rem;
-        }
-
-        .social-icon {
-            font-size: 1.8rem;
-            color: var(--light);
-            transition: color 0.3s;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-            
-            .hero-content h1 {
-                font-size: 2.5rem;
-            }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="logo">StreamerName</div>
-        <div class="nav-links">
-            <a href="#home">Home</a>
-            <a href="#schedule">Schedule</a>
-            <a href="#about">About</a>
-            <a href="#contact">Contact</a>
-        </div>
-    </nav>
+    <!-- Boyleplays Branded Header -->
+    <header class="boyle-header">
+        <h1>BOYLEPLAYS</h1>
+        <p>High-Octane FPS & Immersive RPG Streams</p>
+    </header>
 
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="hero-content">
-            <h1>Live Gaming Streams</h1>
-            <p>Join the adventure daily! 🎮🔥</p>
-            
-            <!-- Stream Preview Embed (Replace with actual embed code) -->
-            <div class="stream-container">
-                <!-- Add your Twitch/YouTube embed code here -->
-                <div style="background: #2a2a2a; aspect-ratio: 16/9; border-radius: 15px;"></div>
-            </div>
-
-            <div class="social-links">
-                <a href="#" class="social-icon"><i class="fab fa-twitch"></i></a>
-                <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
-                <a href="#" class="social-icon"><i class="fab fa-discord"></i></a>
-                <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
-            </div>
-
-            <button class="btn btn-primary" style="margin-top: 2rem;">
-                Donate 💖
-            </button>
+    <!-- Live Stream Section -->
+    <section class="boyle-stream">
+        <h2>🔴 LIVE NOW: Competitive Apex Legends Ranked Grind</h2>
+        <!-- Twitch Embed -->
+        <div class="stream-container">
+            <iframe src="[Your Twitch Embed URL]" 
+                    height="600" 
+                    style="border-radus:15px;">
+            </iframe>
         </div>
     </section>
 
-    <!-- Schedule Section -->
-    <section class="schedule" id="schedule">
-        <h2>Weekly Schedule</h2>
-        <div class="schedule-grid">
-            <!-- Schedule Cards -->
-            <div class="schedule-card">
-                <h3>Monday-Friday</h3>
-                <p>7:00 PM - 11:00 PM EST</p>
-                <p>Valorant Streams</p>
+    <!-- Boyleplays Signature Content -->
+    <section class="boyle-specialties">
+        <div class="cod-theme">
+            <h3><i class="fas fa-crosshairs"></i> Call of Duty: Warzone</h3>
+            <p>2.5+ KD | Tournament Competitor | Loadout Specialist</p>
+        </div>
+        
+        <div class="apex-theme">
+            <h3><i class="fas fa-rocket"></i> Apex Legends Predator</h3>
+            <p>Top 500 Ranked | Movement Tech Guru | Team Strategist</p>
+        </div>
+
+        <div class="fortnite-theme">
+            <h3><i class="fas fa-fort-awesome"></i> Fortnite Build Battles</h3>
+            <p>Creative Mode Expert | Box Fight Champion | Weekly Tournaments</p>
+        </div>
+
+        <div class="baldurs-theme">
+            <h3><i class="fas fa-dragon"></i> Baldur's Gate 3</h3>
+            <p>Story Mode Playthroughs | Character Build Guides | Mod Showcases</p>
+        </div>
+    </section>
+
+    <!-- Boyleplays Elite Setup -->
+    <section class="boyle-rig">
+        <h2>🔥 The Boyleplays Advantage</h2>
+        <div class="rig-specs">
+            <div class="spec-item">
+                <h3>RTX 4090 Powered</h3>
+                <p>4K Max Settings | 240Hz Refresh Rate</p>
             </div>
-            
-            <div class="schedule-card">
-                <h3>Saturday</h3>
-                <p>2:00 PM - Late EST</p>
-                <p>Special Event Streams</p>
+            <div class="spec-item">
+                <h3>Intel i9-13900K</h3>
+                <p>5.8GHz Turbo | DDR5 Optimized</p>
             </div>
-            
-            <div class="schedule-card">
-                <h3>Sunday</h3>
-                <p>Community Day</p>
-                <p>Viewer Games & Challenges</p>
+            <div class="spec-item">
+                <h3>Elgato 4K60 Pro</h3>
+                <p>Flawless Capture | Multi-Cam Setup</p>
             </div>
         </div>
     </section>
 
-    <!-- Add more sections as needed -->
+    <!-- Boyleplays Schedule -->
+    <section class="boyle-schedule">
+        <h2>🕒 Weekly Stream Plan</h2>
+        <table>
+            <tr>
+                <td>Mon-Fri</td>
+                <td>7PM-12AM EST</td>
+                <td>FPS Competitive Nights</td>
+            </tr>
+            <tr>
+                <td>Saturday</td>
+                <td>3PM-Late EST</td>
+                <td>RPG Story Streams</td>
+            </tr>
+            <tr>
+                <td>Sunday</td>
+                <td>All Day</td>
+                <td>Community Challenges</td>
+            </tr>
+        </table>
+    </section>
 
+    <!-- Boyleplays Community Hub -->
+    <section class="boyle-community">
+        <h2>💬 Join the Boyleplays Battalion</h2>
+        <div class="social-links">
+            <a href="[Twitch URL]"><i class="fab fa-twitch"></i> Twitch</a>
+            <a href="[Discord URL]"><i class="fab fa-discord"></i> Discord</a>
+            <a href="[YouTube URL]"><i class="fab fa-youtube"></i> YouTube</a>
+        </div>
+        
+        <div class="boyle-support">
+            <h3>Support the Stream</h3>
+            <button class="donate-btn">Buy Me a Coffee ☕</button>
+            <button class="donate-btn">Patreon 🛡️</button>
+        </div>
+    </section>
 </body>
 </html>
