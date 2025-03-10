@@ -3,149 +3,151 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boyleplays - Professional FPS/RPG Streamer</title>
+    <title>BoylePlays | Scottish GTA V Roleplay Streamer</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            --neon-blue: #0066ff;
-            --cyber-teal: #00fffc;
-            --deep-space: #0a0a2e;
-            --starlight: #e6f1ff;
-            --streamer-purple: #9147ff;
+            --main-color: #4B9CD3;    /* Scottish blue */
+            --accent-color: #DAA520;  /* Chef's gold */
+            --dark-bg: #1a1a1a;
+            --text-light: #f4f4f4;
         }
 
-        /* Custom Boyleplays Theme */
         body {
-            background: var(--deep-space);
-            color: var(--starlight);
-            font-family: 'Oxanium', 'Segoe UI', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            font-family: 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
         }
 
-        /* Boyleplays Header */
-        .boyle-header {
-            background: linear-gradient(135deg, 
-                var(--deep-space) 40%, 
-                var(--neon-blue) 100%);
-            border-bottom: 3px solid var(--cyber-teal);
+        /* Scottish Flag Header */
+        .header {
+            background: linear-gradient(160deg, #005EB8 50%, var(--main-color) 50%);
+            padding: 2rem;
+            text-align: center;
+            position: relative;
         }
 
-        /* Game-Specific Styling */
-        .cod-theme { background: #2a2a2a; border-color: #d22e2e; }
-        .apex-theme { background: #831010; border-color: #ff4655; }
-        .fortnite-theme { background: #3b5998; border-color: #f99e1a; }
-        .baldurs-theme { background: #2c1e30; border-color: #a679d2; }
-
-        /* Hardware Showcase */
-        .boyle-rig {
-            background: rgba(0, 102, 255, 0.05);
-            border: 2px solid var(--cyber-teal);
-            box-shadow: 0 0 25px rgba(0, 255, 252, 0.1);
+        /* Chef/Streamer Dual Identity Badge */
+        .identity-badge {
+            background: var(--accent-color);
+            color: var(--dark-bg);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            display: inline-block;
+            margin: 1rem 0;
         }
 
-        /* Boyleplays Schedule */
-        .boyle-schedule td {
-            border-color: var(--streamer-purple);
-            padding: 1rem 2rem;
+        /* RP Character Cards */
+        .character-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-left: 5px solid var(--main-color);
+        }
+
+        /* Hardware Spec Grid */
+        .spec-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            padding: 2rem;
+            background: rgba(0,0,0,0.3);
+        }
+
+        .spec-item {
+            background: var(--dark-bg);
+            padding: 1rem;
+            border-radius: 10px;
+            border: 1px solid var(--main-color);
+        }
+
+        /* Community Section */
+        .community-section {
+            background: url('scottish-tartan-pattern.png');
+            padding: 2rem;
+            text-align: center;
         }
     </style>
 </head>
 <body>
-    <!-- Boyleplays Branded Header -->
-    <header class="boyle-header">
-        <h1>BOYLEPLAYS</h1>
-        <p>High-Octane FPS & Immersive RPG Streams</p>
+    <header class="header">
+        <h1>BoylePlays</h1>
+        <div class="identity-badge">
+            🎮 Full-Time Chef | Part-Time Roleplayer �
+        </div>
     </header>
 
-    <!-- Live Stream Section -->
-    <section class="boyle-stream">
-        <h2>🔴 LIVE NOW: Competitive Apex Legends Ranked Grind</h2>
-        <!-- Twitch Embed -->
-        <div class="stream-container">
-            <iframe src="[Your Twitch Embed URL]" 
-                    height="600" 
-                    style="border-radus:15px;">
-            </iframe>
-        </div>
-    </section>
+    <main class="container">
+        <!-- About Section -->
+        <section class="about-section">
+            <h2>🏴󠁧󠁢󠁳󠁣󠁴󠁩 Welcome to My Stream! 🎮</h2>
+            <p>Casual GTA V RP streams from the heart of Scotland! Join me for:</p>
+            <ul>
+                <li>🤣 Humorous roleplay scenarios</li>
+                <li>📖 Immersive character stories</li>
+                <li>👥 Community-driven content</li>
+            </ul>
+        </section>
 
-    <!-- Boyleplays Signature Content -->
-    <section class="boyle-specialties">
-        <div class="cod-theme">
-            <h3><i class="fas fa-crosshairs"></i> Call of Duty: Warzone</h3>
-            <p>2.5+ KD | Tournament Competitor | Loadout Specialist</p>
-        </div>
-        
-        <div class="apex-theme">
-            <h3><i class="fas fa-rocket"></i> Apex Legends Predator</h3>
-            <p>Top 500 Ranked | Movement Tech Guru | Team Strategist</p>
-        </div>
+        <!-- Current Characters -->
+        <section class="characters">
+            <div class="character-card">
+                <h3>Viktor Reznov</h3>
+                <p>🎭 MomentsRP (GTA V)</p>
+                <p>🔹 Former Scora Network/Prodigy RP veteran</p>
+            </div>
 
-        <div class="fortnite-theme">
-            <h3><i class="fas fa-fort-awesome"></i> Fortnite Build Battles</h3>
-            <p>Creative Mode Expert | Box Fight Champion | Weekly Tournaments</p>
-        </div>
+            <div class="character-card">
+                <h3>Jack "Dusty" Roberts</h3>
+                <p>🤠 Syn County (RDR2 RP)</p>
+                <p>🔹 Emerging wild west personality</p>
+            </div>
+        </section>
 
-        <div class="baldurs-theme">
-            <h3><i class="fas fa-dragon"></i> Baldur's Gate 3</h3>
-            <p>Story Mode Playthroughs | Character Build Guides | Mod Showcases</p>
-        </div>
-    </section>
+        <!-- Streaming Info -->
+        <section class="stream-info">
+            <h2>📅 Streaming Schedule</h2>
+            <p>⏰ Evening streams (UK time) around chef shifts<br>
+            🔔 Follow <a href="https://twitter.com/BoylePlays">Twitter</a> for daily updates</p>
+        </section>
 
-    <!-- Boyleplays Elite Setup -->
-    <section class="boyle-rig">
-        <h2>🔥 The Boyleplays Advantage</h2>
-        <div class="rig-specs">
+        <!-- Hardware Specs -->
+        <section class="spec-grid">
             <div class="spec-item">
-                <h3>RTX 4090 Powered</h3>
-                <p>4K Max Settings | 240Hz Refresh Rate</p>
+                <h4>🖥️ Corsair 680X RGB Case</h4>
+                <p>32-Core Threadripper 3970X</p>
             </div>
             <div class="spec-item">
-                <h3>Intel i9-13900K</h3>
-                <p>5.8GHz Turbo | DDR5 Optimized</p>
+                <h4>🎮 RTX 3070 Ti</h4>
+                <p>32GB DDR4 | 8TB Storage</p>
             </div>
             <div class="spec-item">
-                <h3>Elgato 4K60 Pro</h3>
-                <p>Flawless Capture | Multi-Cam Setup</p>
+                <h4>❄️ FrostFlow Cooling</h4>
+                <p>Dual SSD Performance</p>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Boyleplays Schedule -->
-    <section class="boyle-schedule">
-        <h2>🕒 Weekly Stream Plan</h2>
-        <table>
-            <tr>
-                <td>Mon-Fri</td>
-                <td>7PM-12AM EST</td>
-                <td>FPS Competitive Nights</td>
-            </tr>
-            <tr>
-                <td>Saturday</td>
-                <td>3PM-Late EST</td>
-                <td>RPG Story Streams</td>
-            </tr>
-            <tr>
-                <td>Sunday</td>
-                <td>All Day</td>
-                <td>Community Challenges</td>
-            </tr>
-        </table>
-    </section>
+        <!-- Community Recognition -->
+        <section class="community-section">
+            <blockquote>
+                "BoylePlays brings authentic Scottish humor to GTA RP"
+                <footer>- Edinburgh Reviews</footer>
+            </blockquote>
+        </section>
 
-    <!-- Boyleplays Community Hub -->
-    <section class="boyle-community">
-        <h2>💬 Join the Boyleplays Battalion</h2>
-        <div class="social-links">
-            <a href="[Twitch URL]"><i class="fab fa-twitch"></i> Twitch</a>
-            <a href="[Discord URL]"><i class="fab fa-discord"></i> Discord</a>
-            <a href="[YouTube URL]"><i class="fab fa-youtube"></i> YouTube</a>
-        </div>
-        
-        <div class="boyle-support">
-            <h3>Support the Stream</h3>
-            <button class="donate-btn">Buy Me a Coffee ☕</button>
-            <button class="donate-btn">Patreon 🛡️</button>
-        </div>
-    </section>
+        <!-- Social Links -->
+        <section class="social-links">
+            <a href="https://twitch.tv/BoylePlays"><i class="fab fa-twitch"></i></a>
+            <a href="https://twitter.com/BoylePlays"><i class="fab fa-twitter"></i></a>
+            <a href="https://youtube.com/@boyleplays"><i class="fab fa-youtube"></i></a>
+            <a href="https://tiktok.com/@boyleplays"><i class="fab fa-tiktok"></i></a>
+        </section>
+    </main>
+
+    <footer>
+        <p>🎥 Part-time streamer, full-time chef - Thanks for stopping by! 👨🍳</p>
+    </footer>
 </body>
 </html>
