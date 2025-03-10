@@ -8,7 +8,7 @@
     --card-bg: #1f1f1f;
     --text-color: #FFFFFF;
     --border-radius: 12px;
-    --gradient: linear-gradient(135deg, var(--scottish-blue), var(--twitch-purple));
+    --gradient-bg: linear-gradient(135deg, var(--scottish-blue), var(--twitch-purple));
 }
 
 body {
@@ -20,8 +20,8 @@ body {
 }
 
 header {
-    background: var(--gradient);
-    padding: 2rem;
+    background: var(--gradient-bg);
+    padding: 2rem 1rem;
     text-align: center;
 }
 
@@ -29,16 +29,15 @@ header {
     background: var(--tiktok-pink);
     color: var(--text-color);
     padding: 0.5rem 1rem;
-    border-radius: 20px;
-    font-weight: bold;
+    border-radius: 25px;
     display: inline-block;
     margin-top: 1rem;
 }
 
 .container {
     max-width: 1200px;
-    margin: auto;
     padding: 1rem;
+    margin: auto;
 }
 
 section {
@@ -55,9 +54,9 @@ section {
     background: var(--card-bg);
     padding: 1.2rem;
     border-radius: var(--border-radius);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.3);
     cursor: pointer;
     transition: transform 0.3s ease;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.3);
 }
 
 .card:hover {
@@ -71,12 +70,11 @@ section {
     padding: 0.8rem 1.4rem;
     border-radius: var(--border-radius);
     cursor: pointer;
-    transition: transform 0.3s ease, background-position 0.3s ease;
+    transition: transform 0.3s ease;
 }
 
 .btn:hover {
     transform: scale(1.05);
-    background-position: right center;
 }
 
 .social-links {
@@ -101,7 +99,7 @@ section {
 }
 
 footer {
-    background: var(--gradient);
+    background: var(--gradient-bg);
     text-align: center;
     padding: 1rem;
     border-radius: var(--border-radius);
@@ -109,7 +107,7 @@ footer {
     font-size: 0.9rem;
 }
 
-/* TikTok & YouTube specific sections */
+/* TikTok & YouTube specific highlights */
 section:nth-of-type(5) .card {
     border-top: 4px solid var(--tiktok-cyan);
     border-bottom: 4px solid var(--tiktok-pink);
@@ -119,70 +117,21 @@ section:nth-of-type(6) .card {
     border-top: 4px solid var(--youtube-red);
 }
 
-/* Responsive Styles for Tablets and Mobile */
+/* Responsive Media Queries */
 @media (max-width: 992px) {
-    .grid {
-        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    }
-
-    header, footer {
-        padding: 1.5rem;
-    }
-
-    .badge {
-        padding: 0.4rem 0.8rem;
-        font-size: 0.9rem;
-    }
+    header, footer { padding: 1.5rem; }
+    .grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
 }
 
 @media (max-width: 768px) {
-    .container {
-        padding: 0.8rem;
-    }
-
-    .grid {
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    }
-
-    .card, .btn {
-        padding: 1rem;
-        font-size: 0.9rem;
-    }
-
-    header, footer {
-        padding: 1rem;
-    }
-
-    h1 {
-        font-size: 1.8rem;
-    }
-
-    .social-links a {
-        font-size: 1.6rem;
-        margin: 0.3rem;
-    }
+    .container { padding: 1rem; }
+    .card, .btn { padding: 1rem; }
+    .social-links a { font-size: 1.6rem; }
 }
 
 @media (max-width: 576px) {
-    header, footer {
-        padding: 0.8rem;
-    }
-
-    .grid {
-        grid-template-columns: 1fr;
-    }
-
-    .badge {
-        font-size: 0.8rem;
-    }
-
-    .social-links a {
-        font-size: 1.4rem;
-        margin: 0.2rem;
-    }
-
-    .card, .btn {
-        padding: 0.8rem;
-        font-size: 0.85rem;
-    }
+    .grid { grid-template-columns: 1fr; }
+    .badge { font-size: 0.8rem; }
+    .social-links a { font-size: 1.4rem; }
+    header, footer { padding: 1rem; }
 }
