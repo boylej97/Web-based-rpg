@@ -209,20 +209,84 @@
     <footer>© 2025 BoylePlays | Designed & built in Scotland.</footer>
 
     <!-- Interactive RP Navigation -->
-    <script>
-        const rpData = {
-            gta: {servers: {"MomentsRP":[{name:"Viktor Reznov",story:"Legendary criminal."}], "Scora Network":[{name:"Vinnie Boyle",story:"Funny gangster."}], "Prodigy RP":[{name:"Reece Dempsey",story:"Community-oriented citizen."}]}},
-            rdr: {servers: {"Syn County":[{name:'Jack "Dusty" Roberts',story:"Emerging storyteller in the wild west."}]}}
-        };
-        let history = [];
-        const container=document.getElementById('rp-container'), backBtn=document.getElementById('backBtn');
-        function render(items){container.innerHTML='';items.forEach(i=>{container.innerHTML+=`<div class="card" onclick="${i.onclick}">${i.name}</div>`;});backBtn.style.display=history.length?'inline-block':'none';}
-        function showRPs(){history=[];render([{name:'GTA V RP',onclick:()=>showServers('gta')},{name:'Red Dead RP',onclick:()=>showServers('rdr')}]);}
-        function showServers(type){history.push(showRPs);render(Object.keys(rpData[type].servers).map(s=>({name:s,onclick:()=>showChars(type,s)})));}
-        function showChars(type,server){history.push(()=>showServers(type));render(rpData[type].servers[server].map(c=>({name:c.name,onclick:()=>showStory(c,type,s)})));}
-        function showStory(c,type,server){history.push(()=>showChars(type,server));container.innerHTML=`<div class="card"><h3>${c.name}</h3><p>${c.story}</p></div>`;backBtn.style.display='inline-block';}
-        function goBack(){if(history.length) history.pop()();}
-        document.addEventListener('DOMContentLoaded', showRPs);
-    </script>
+<script>
+    const rpData = {
+        gta: {
+            servers: {
+                "MomentsRP": [{name:"Viktor Reznov",story:"Legendary criminal from Glasgow."}],
+                "Scora Network": [{name:"Vinnie Boyle",story:"Funny gangster."}],
+                "Prodigy RP": [{name:"Reece Dempsey",story:"Community-oriented citizen."}]
+            }
+        },
+        rdr: {
+            servers: {
+                "Syn County": [{name:'Jack "Dusty" Roberts',story:"Emerging storyteller in the wild west."}]
+            }
+        }
+    };
+
+    const container = document.getElementById('rp-container');
+    const backBtn = document.getElementById('backBtn');
+    let history = [];
+
+    function renderCards(items) {
+        container.innerHTML = '';
+        items.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `<h3>${item.name}</h3>`;
+            card.onclick = item.onclick;
+            container.appendChild(card);
+        });
+        backBtn.style.display = history.length ? 'inline-block' : 'none';
+    }
+
+    function showRPs() {
+        history = [];
+        renderCards([
+            {name:'GTA V RP', onclick:()=>showServers('gta')},
+            {name:'Red Dead RP', onclick:()=>showServers('rdr')}
+        ]);
+    }
+
+    function showServers(type) {
+        history.push(showRPs);
+        renderCards(Object.keys(rpData[type].servers).map(server => ({
+            name: server, onclick:()=>showCharacters(type, server)
+        })));
+    }
+
+    function showCharacters(type, server) {
+        history.push(()=>showServers(type));
+        renderCards(rpData[type].servers[server].map(char=>({
+            name:char.name,
+            onclick:()=>showStory(char,type,server)
+        })));
+    }
+
+    function showStory(char, type, server) {
+        history.push(()=>showCharacters(type,server));
+        container.innerHTML=`
+            <div class="card">
+                <h3>${char.name}</h3>
+                <p>${char.story}</p>
+            </div>`;
+        backBtn.style.display='inline-block';
+    }
+
+    function showServers(type) {
+        history.push(showRPs);
+        renderCards(Object.keys(rpData[type].servers).map(server=>({
+            name:server,
+            onclick:()=>showCharacters(type,server)
+        })));
+    }
+
+    function goBack() {
+        if(history.length) history.pop()();
+    }
+
+    document.addEventListener('DOMContentLoaded', showRPs);
+</script>
 </body>
 </html>
