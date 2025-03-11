@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BoylePlays | Twitch Streamer & Five M Roleplayer</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <style>
         /* Base Styles */
         :root {
@@ -225,6 +226,82 @@
             gap: 2rem;
         }
         
+        /* Server Cards */
+        .server-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .server-card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            height: 200px;
+        }
+        
+        .server-card.active {
+            background-color: rgba(145, 70, 255, 0.1);
+            box-shadow: 0 15px 30px rgba(145, 70, 255, 0.2);
+        }
+        
+        .server-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .server-header {
+            padding: 1.5rem;
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            transition: all 0.5s ease;
+        }
+        
+        .server-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: var(--primary);
+            text-align: center;
+        }
+        
+        .server-desc {
+            font-size: 1rem;
+            opacity: 0.8;
+            text-align: center;
+        }
+        
+        .server-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        /* Server Character Content */
+        .server-content {
+            height: 0;
+            overflow: hidden;
+            transition: height 0.5s ease;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+        
+        .server-content.active {
+            height: auto;
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        /* Character Cards */
         .character-cards {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -232,10 +309,21 @@
         }
         
         .character-card {
-            background-color: var(--card-bg);
+            background-color: rgba(31, 31, 35, 0.8);
             border-radius: 8px;
             overflow: hidden;
             transition: transform 0.3s;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.5s forwards;
+            animation-delay: calc(var(--index) * 0.1s);
+        }
+        
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         
         .character-card:hover {
@@ -256,6 +344,24 @@
             font-size: 1.5rem;
             margin-bottom: 0.5rem;
             color: var(--primary);
+        }
+        
+        .character-role {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+        }
+        
+        .character-role.police {
+            background-color: #3498db;
+        }
+        
+        .character-role.crim {
+            background-color: #e74c3c;
         }
         
         .character-desc {
@@ -573,31 +679,110 @@
     <!-- Five M Roleplay Section -->
     <section id="roleplay" class="rp-section">
         <h2 class="section-title">Five M Roleplay</h2>
-        <p class="section-subtitle">Meet my characters from the RP universe</p>
+        <p class="section-subtitle">Explore my characters across different RP servers</p>
         
         <div class="rp-content">
-            <div class="character-cards">
-                <div class="character-card hover-card">
-                    <img src="/api/placeholder/400/300" alt="Character" class="character-img">
-                    <div class="character-info">
-                        <h3 class="character-name">Michael "Mikey" Boyle</h3>
-                        <p class="character-desc">Ex-cop turned private investigator with a knack for finding trouble in Los Santos.</p>
+            <!-- Server Cards -->
+            <div class="server-cards">
+                <div class="server-card hover-card" data-server="scora">
+                    <div class="server-header">
+                        <div class="server-icon">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <h3 class="server-name">Scora Network</h3>
+                        <p class="server-desc">Click to view characters</p>
                     </div>
                 </div>
                 
-                <div class="character-card hover-card">
-                    <img src="/api/placeholder/400/300" alt="Character" class="character-img">
-                    <div class="character-info">
-                        <h3 class="character-name">Tony "The Fix" Delgado</h3>
-                        <p class="character-desc">Mechanic by day, street racer by night. Has connections all over the city.</p>
+                <div class="server-card hover-card" data-server="prodigy">
+                    <div class="server-header">
+                        <div class="server-icon">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <h3 class="server-name">Prodigy RP</h3>
+                        <p class="server-desc">Click to view characters</p>
                     </div>
                 </div>
                 
-                <div class="character-card hover-card">
-                    <img src="/api/placeholder/400/300" alt="Character" class="character-img">
-                    <div class="character-info">
-                        <h3 class="character-name">Dr. Samuel Wright</h3>
-                        <p class="character-desc">Emergency physician with a dark past and a Robin Hood complex.</p>
+                <div class="server-card hover-card" data-server="moments">
+                    <div class="server-header">
+                        <div class="server-icon">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <h3 class="server-name">Moments RP</h3>
+                        <p class="server-desc">Click to view characters</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Scora Network Characters -->
+            <div id="scora-content" class="server-content">
+                <h3 style="margin-bottom: 2rem; font-size: 1.8rem; color: var(--primary);">Scora Network Characters</h3>
+                <div class="character-cards">
+                    <div class="character-card hover-card" style="--index: 1">
+                        <img src="/api/placeholder/400/300" alt="Jamie Kay" class="character-img">
+                        <div class="character-info">
+                            <h3 class="character-name">Jamie Kay</h3>
+                            <span class="character-role crim">Criminal</span>
+                            <p class="character-desc">Street-smart hustler with a knack for talking his way out of trouble. Known for elaborate schemes and heists.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="character-card hover-card" style="--index: 2">
+                        <img src="/api/placeholder/400/300" alt="Shaun Ramos" class="character-img">
+                        <div class="character-info">
+                            <h3 class="character-name">Shaun Ramos</h3>
+                            <span class="character-role crim">Criminal</span>
+                            <p class="character-desc">Ex-military with a mysterious past. Specializes in precise planning and execution of high-stakes jobs.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Prodigy RP Characters -->
+            <div id="prodigy-content" class="server-content">
+                <h3 style="margin-bottom: 2rem; font-size: 1.8rem; color: var(--primary);">Prodigy RP Characters</h3>
+                <div class="character-cards">
+                    <div class="character-card hover-card" style="--index: 1">
+                        <img src="/api/placeholder/400/300" alt="Shaun Ramos" class="character-img">
+                        <div class="character-info">
+                            <h3 class="character-name">Shaun Ramos</h3>
+                            <span class="character-role crim">Criminal</span>
+                            <p class="character-desc">Street racer and getaway driver extraordinaire. Shaun's reputation for outrunning the cops has made him a legend in the underworld.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Moments RP Characters -->
+            <div id="moments-content" class="server-content">
+                <h3 style="margin-bottom: 2rem; font-size: 1.8rem; color: var(--primary);">Moments RP Characters</h3>
+                <div class="character-cards">
+                    <div class="character-card hover-card" style="--index: 1">
+                        <img src="/api/placeholder/400/300" alt="Shaun Ramos" class="character-img">
+                        <div class="character-info">
+                            <h3 class="character-name">Shaun Ramos</h3>
+                            <span class="character-role crim">Criminal</span>
+                            <p class="character-desc">Gang leader with a network of loyal followers. Controls several illegal operations across the city.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="character-card hover-card" style="--index: 2">
+                        <img src="/api/placeholder/400/300" alt="Viktor Reznov" class="character-img">
+                        <div class="character-info">
+                            <h3 class="character-name">Viktor Reznov</h3>
+                            <span class="character-role crim">Criminal</span>
+                            <p class="character-desc">Russian arms dealer with connections to the international black market. Cold, calculated, and dangerous.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="character-card hover-card" style="--index: 3">
+                        <img src="/api/placeholder/400/300" alt="James McAllister" class="character-img">
+                        <div class="character-info">
+                            <h3 class="character-name">James McAllister</h3>
+                            <span class="character-role police">Police</span>
+                            <p class="character-desc">Dedicated detective with a strong moral compass. Known for his unorthodox methods and determination to clean up the streets.</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -699,5 +884,30 @@
     <footer>
         <p>&copy; 2025 BoylePlays. All rights reserved.</p>
     </footer>
+    
+    <script>
+        $(document).ready(function() {
+            // Server card click functionality
+            $('.server-card').click(function() {
+                const server = $(this).data('server');
+                const contentId = `#${server}-content`;
+                
+                // Toggle active class on the clicked server card
+                $('.server-card').removeClass('active');
+                $(this).addClass('active');
+                
+                // Hide all server contents first
+                $('.server-content').removeClass('active');
+                
+                // Show the selected server content with animation
+                $(contentId).addClass('active');
+                
+                // Scroll to the content
+                $('html, body').animate({
+                    scrollTop: $(contentId).offset().top - 150
+                }, 500);
+            });
+        });
+    </script>
 </body>
 </html>
