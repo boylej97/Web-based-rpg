@@ -3,180 +3,1233 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive D&D Platform</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>D&D Character Tracker</title>
     <style>
-        /* Custom styles and uiverse.io components */
         :root {
-            --primary: #2c1810;
-            --secondary: #5a3a2b;
-            --accent: #d4af37;
+            --primary: #9b5de5;
+            --primary-dark: #7209b7;
+            --secondary: #f15bb5;
+            --accent: #fee440;
+            --background: #10002b;
+            --card-bg: #240046;
+            --text: #f8f9fa;
+            --success: #00f5d4;
+            --info: #00bbf9;
+            --danger: #f15bb5;
         }
-
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
         body {
-            font-family: 'MedievalSharp', cursive;
-            background: url('https://img.freepik.com/free-photo/old-brown-parchment-paper_53876-94883.jpg') repeat;
-            color: var(--primary);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(123, 44, 191, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 80% 60%, rgba(241, 91, 181, 0.1) 0%, transparent 20%);
+            background-attachment: fixed;
         }
-
-        /* Character Sheet Card */
-        .character-card {
-            background: #fff9e6;
-            border-radius: 15px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
             padding: 20px;
-            margin: 20px;
-            border: 2px solid var(--primary);
         }
-
-        /* Dice Roller Button from uiverse.io */
-        .dice-btn {
+        
+        header {
+            text-align: center;
+            padding: 30px 0;
+            margin-bottom: 30px;
             position: relative;
+        }
+        
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
             width: 150px;
-            height: 150px;
-            background: var(--secondary);
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 2px;
+        }
+        
+        h1 {
+            color: var(--accent);
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(254, 228, 64, 0.3);
+        }
+        
+        h2 {
+            margin-bottom: 20px;
+            color: var(--secondary);
+        }
+        
+        /* Uiverse-inspired Tabs */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .tab-input {
+            display: none;
+        }
+        
+        .tab-label {
+            padding: 12px 25px;
+            background-color: var(--card-bg);
+            color: var(--text);
+            margin-right: 5px;
+            border: none;
+            border-radius: 10px 10px 0 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tab-label::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .tab-input:checked + .tab-label {
+            background-color: var(--primary-dark);
+            font-weight: bold;
+        }
+        
+        .tab-input:checked + .tab-label::before {
+            transform: scaleX(1);
+        }
+        
+        .tab-input:hover + .tab-label {
+            background-color: var(--primary-dark);
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 20px;
+            border-radius: 0 10px 10px 10px;
+            background-color: rgba(36, 0, 70, 0.6);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .tab-input:checked ~ .tab-content {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Uiverse-inspired Card */
+        .card {
+            background: linear-gradient(145deg, var(--card-bg), var(--primary-dark));
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
             border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        .character-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .character-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .info-item {
+            background-color: rgba(36, 0, 70, 0.7);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(155, 93, 229, 0.2);
+        }
+        
+        .info-label {
+            color: var(--secondary);
+            font-size: 0.9em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        /* Uiverse-inspired Ability Scores */
+        .ability-scores {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .ability-score {
+            text-align: center;
+            background-color: rgba(114, 9, 183, 0.5);
+            padding: 15px 10px;
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(155, 93, 229, 0.3);
+        }
+        
+        .ability-score:hover {
+            transform: translateY(-5px);
+            background-color: rgba(114, 9, 183, 0.7);
+        }
+        
+        .ability-score::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+            opacity: 0.3;
+            border-radius: 50%;
+            transition: all 0.5s ease;
+        }
+        
+        .ability-score:hover::before {
+            transform: scale(1.5);
+        }
+        
+        .ability-name {
+            font-weight: bold;
+            color: var(--accent);
+            font-size: 1.1em;
+            margin-bottom: 8px;
+        }
+        
+        .ability-value {
+            font-size: 28px;
+            font-weight: bold;
+            background: linear-gradient(90deg, var(--info) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+        
+        .ability-modifier {
+            font-size: 18px;
+            background: rgba(0, 187, 249, 0.2);
+            border-radius: 10px;
+            padding: 3px 8px;
+            margin-top: 5px;
+            display: inline-block;
+        }
+        
+        /* Uiverse-inspired HP Section */
+        .hp-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding: 15px;
+            background-color: rgba(36, 0, 70, 0.7);
+            border-radius: 15px;
+            border: 1px solid rgba(241, 91, 181, 0.3);
+        }
+        
+        .hp-display {
+            flex: 1;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .hp-current {
+            font-size: 32px;
+            color: var(--success);
+        }
+        
+        .hp-max {
+            color: var(--text);
+            opacity: 0.7;
+        }
+        
+        /* Uiverse-inspired Buttons */
+        .btn {
+            background: linear-gradient(145deg, var(--primary), var(--primary-dark));
+            color: var(--text);
+            border: none;
+            border-radius: 10px;
+            padding: 12px 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: all 0.5s ease;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn:hover::before {
+            left: 100%;
+        }
+        
+        .btn-small {
+            padding: 8px 15px;
+            font-size: 0.9em;
+        }
+        
+        .btn-success {
+            background: linear-gradient(145deg, var(--success), #00c3a9);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(145deg, var(--danger), #d33e9b);
+        }
+        
+        /* Uiverse-inspired Dice Roller */
+        .dice-roller {
+            background: linear-gradient(145deg, var(--card-bg), var(--primary-dark));
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .dice-roller::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(254, 228, 64, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        
+        .dice-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 25px;
+            justify-content: center;
+        }
+        
+        .dice-btn {
+            background: linear-gradient(145deg, #4c138d, #36096c);
+            color: var(--text);
+            border: none;
+            border-radius: 15px;
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+            min-width: 80px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .dice-btn:hover {
+            transform: translateY(-3px) rotate(2deg);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .dice-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.5s ease;
+        }
+        
+        .dice-btn:hover::before {
+            transform: translateX(100%);
+        }
+        
+        .roll-result {
+            font-size: 32px;
+            text-align: center;
+            margin-top: 20px;
+            min-height: 60px;
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        .dice-btn:hover {
-            transform: rotate(360deg) scale(1.1);
-        }
-
-        /* Stats Container */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin: 20px 0;
-        }
-
-        /* Input styling from uiverse.io */
-        .input-group {
+            background-color: rgba(36, 0, 70, 0.5);
+            border-radius: 15px;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             position: relative;
-            margin: 10px 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
         }
-
-        .input {
-            border: 2px solid var(--primary);
-            border-radius: 5px;
-            padding: 10px;
-            background: transparent;
-            width: 100%;
+        
+        .roll-result.active {
+            animation: pulse 0.5s ease;
+            box-shadow: 0 0 20px rgba(254, 228, 64, 0.5);
         }
-
-        /* Tabs Navigation */
-        .tabs {
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Uiverse-inspired Spell Cards */
+        .spell-section {
+            margin-bottom: 25px;
+        }
+        
+        .spell-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .spell-card {
+            background: linear-gradient(145deg, rgba(36, 0, 70, 0.7), rgba(114, 9, 183, 0.5));
+            border-radius: 15px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .spell-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(241, 91, 181, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        
+        .spell-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .spell-header {
             display: flex;
-            gap: 10px;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .spell-name {
+            font-weight: bold;
+            color: var(--accent);
+            font-size: 1.2em;
+        }
+        
+        .spell-level {
+            background-color: rgba(0, 187, 249, 0.2);
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 0.8em;
+        }
+        
+        .spell-info {
+            margin-bottom: 15px;
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .spell-description {
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+        
+        /* Uiverse-inspired Input */
+        .input-group {
             margin-bottom: 20px;
         }
-
-        .tab {
-            padding: 10px 20px;
-            background: var(--secondary);
-            color: white;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.3s ease;
+        
+        .input-label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--secondary);
+            font-weight: bold;
         }
-
-        .tab.active {
-            background: var(--accent);
+        
+        .input-field {
+            width: 100%;
+            padding: 12px 15px;
+            background-color: rgba(36, 0, 70, 0.5);
+            border: 1px solid rgba(155, 93, 229, 0.3);
+            border-radius: 10px;
+            color: var(--text);
+            transition: all 0.3s ease;
+        }
+        
+        .input-field:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(241, 91, 181, 0.3);
+            background-color: rgba(36, 0, 70, 0.7);
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .ability-scores {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .character-info {
+                grid-template-columns: 1fr;
+            }
+            
+            .dice-options {
+                justify-content: center;
+            }
+            
+            .spell-list {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .ability-scores {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .tabs {
+                flex-wrap: wrap;
+            }
+            
+            .tab-label {
+                flex: 1 0 40%;
+                margin-bottom: 5px;
+                text-align: center;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Navigation Tabs -->
+        <header>
+            <h1>D&D Character Tracker</h1>
+            <p>Interactive character sheet and dice roller for your D&D adventures</p>
+            <div style="margin-top: 20px; display: flex; justify-content: center; gap: 15px;">
+                <button id="save-btn" class="btn" style="background: linear-gradient(145deg, var(--success), #00c3a9);">
+                    Save Character
+                </button>
+                <button id="load-btn" class="btn" style="background: linear-gradient(145deg, var(--info), #0095c6);">
+                    Load Character
+                </button>
+                <button id="new-btn" class="btn" style="background: linear-gradient(145deg, var(--accent), #ddc500);">
+                    New Character
+                </button>
+            </div>
+        </header>
+        
         <div class="tabs">
-            <div class="tab active" onclick="switchTab('character')">Character Sheet</div>
-            <div class="tab" onclick="switchTab('dice')">Dice Roller</div>
-            <div class="tab" onclick="switchTab('inventory')">Inventory</div>
-        </div>
-
-        <!-- Character Sheet Tab -->
-        <div id="character" class="tab-content">
-            <div class="character-card">
-                <h2>Character Sheet</h2>
-                <div class="stats-grid">
-                    <div class="input-group">
-                        <input type="text" class="input" placeholder="Character Name">
+            <input type="radio" name="tabs" id="tab1" class="tab-input" checked>
+            <label for="tab1" class="tab-label">Character Sheet</label>
+            
+            <input type="radio" name="tabs" id="tab2" class="tab-input">
+            <label for="tab2" class="tab-label">Dice Roller</label>
+            
+            <input type="radio" name="tabs" id="tab3" class="tab-input">
+            <label for="tab3" class="tab-label">Spellbook</label>
+            
+            <input type="radio" name="tabs" id="tab4" class="tab-input">
+            <label for="tab4" class="tab-label">Inventory</label>
+            
+            <input type="radio" name="tabs" id="tab5" class="tab-input">
+            <label for="tab5" class="tab-label">Notes</label>
+            
+            <input type="radio" name="tabs" id="tab6" class="tab-input">
+            <label for="tab6" class="tab-label">Combat</label>
+            
+            <!-- Character Sheet Tab -->
+            <div class="tab-content" id="content1">
+                <div class="card">
+                    <div class="character-header">
+                        <div>
+                            <h2 id="character-name">Alyndra Stormheart</h2>
+                            <p id="character-subtitle">Level 5 Human Paladin</p>
+                        </div>
+                        <button id="edit-character-btn" class="btn btn-small">Edit</button>
                     </div>
-                    <div class="input-group">
-                        <input type="number" class="input" placeholder="Strength">
+                    
+                    <div class="character-info">
+                        <div class="info-item">
+                            <div class="info-label">Class & Level</div>
+                            <div>Paladin 5</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Background</div>
+                            <div>Noble</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Race</div>
+                            <div>Human</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Alignment</div>
+                            <div>Lawful Good</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Experience</div>
+                            <div>6,500 / 14,000</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Proficiency</div>
+                            <div>+3</div>
+                        </div>
                     </div>
-                    <div class="input-group">
-                        <input type="number" class="input" placeholder="Dexterity">
+                    
+                    <div class="ability-scores">
+                        <div class="ability-score">
+                            <div class="ability-name">STR</div>
+                            <div class="ability-value">16</div>
+                            <div class="ability-modifier">+3</div>
+                        </div>
+                        <div class="ability-score">
+                            <div class="ability-name">DEX</div>
+                            <div class="ability-value">12</div>
+                            <div class="ability-modifier">+1</div>
+                        </div>
+                        <div class="ability-score">
+                            <div class="ability-name">CON</div>
+                            <div class="ability-value">14</div>
+                            <div class="ability-modifier">+2</div>
+                        </div>
+                        <div class="ability-score">
+                            <div class="ability-name">INT</div>
+                            <div class="ability-value">10</div>
+                            <div class="ability-modifier">+0</div>
+                        </div>
+                        <div class="ability-score">
+                            <div class="ability-name">WIS</div>
+                            <div class="ability-value">13</div>
+                            <div class="ability-modifier">+1</div>
+                        </div>
+                        <div class="ability-score">
+                            <div class="ability-name">CHA</div>
+                            <div class="ability-value">15</div>
+                            <div class="ability-modifier">+2</div>
+                        </div>
                     </div>
-                    <!-- Add more attributes as needed -->
+                    
+                    <div class="hp-section">
+                        <div class="hp-display">
+                            <span class="hp-current">42</span>
+                            <span class="hp-max">/ 45</span>
+                        </div>
+                        <div>
+                            <button class="btn btn-small btn-danger">-</button>
+                            <input type="number" class="input-field" style="width: 60px; text-align: center;" value="1">
+                            <button class="btn btn-small btn-success">+</button>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <!-- Dice Roller Tab -->
-        <div id="dice" class="tab-content" style="display: none;">
-            <div class="character-card">
-                <h2>Dice Roller</h2>
-                <div class="dice-container">
-                    <div class="dice-btn" onclick="rollDice(20)">
-                        <span class="dice-result">D20</span>
-                    </div>
+            
+            <!-- Dice Roller Tab -->
+            <div class="tab-content" id="content2">
+                <div class="dice-roller">
+                    <h2>Dice Roller</h2>
                     <div class="dice-options">
-                        <button class="dice-option" onclick="rollDice(4)">D4</button>
-                        <button class="dice-option" onclick="rollDice(6)">D6</button>
-                        <button class="dice-option" onclick="rollDice(8)">D8</button>
-                        <button class="dice-option" onclick="rollDice(10)">D10</button>
-                        <button class="dice-option" onclick="rollDice(12)">D12</button>
-                        <button class="dice-option" onclick="rollDice(100)">D100</button>
+                        <button class="dice-btn" data-dice="d4">D4</button>
+                        <button class="dice-btn" data-dice="d6">D6</button>
+                        <button class="dice-btn" data-dice="d8">D8</button>
+                        <button class="dice-btn" data-dice="d10">D10</button>
+                        <button class="dice-btn" data-dice="d12">D12</button>
+                        <button class="dice-btn" data-dice="d20">D20</button>
+                        <button class="dice-btn" data-dice="d100">D100</button>
+                    </div>
+                    
+                    <div class="input-group">
+                        <div class="input-label">Custom Roll</div>
+                        <div style="display: flex; gap: 10px;">
+                            <input type="number" class="input-field" id="diceCount" min="1" max="20" value="1" style="width: 60px;">
+                            <select class="input-field" id="diceType">
+                                <option value="d4">D4</option>
+                                <option value="d6">D6</option>
+                                <option value="d8">D8</option>
+                                <option value="d10">D10</option>
+                                <option value="d12">D12</option>
+                                <option value="d20" selected>D20</option>
+                                <option value="d100">D100</option>
+                            </select>
+                            <input type="number" class="input-field" id="diceModifier" placeholder="+0" style="width: 80px;">
+                            <button class="btn" id="customRoll">Roll</button>
+                        </div>
+                    </div>
+                    
+                    <div class="roll-result" id="rollResult">
+                        Roll a die to see results
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h2>Common Rolls</h2>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px;">
+                        <button class="btn" data-roll="1d20">Attack Roll</button>
+                        <button class="btn" data-roll="2d6+3">Greatsword Damage</button>
+                        <button class="btn" data-roll="1d20+3">Strength Save</button>
+                        <button class="btn" data-roll="1d20+1">Dexterity Save</button>
+                        <button class="btn" data-roll="1d20+2">Initiative</button>
+                        <button class="btn" data-roll="8d6">Fireball</button>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <!-- Inventory Tab -->
-        <div id="inventory" class="tab-content" style="display: none;">
-            <div class="character-card">
-                <h2>Inventory Manager</h2>
-                <div class="inventory-grid">
-                    <!-- Inventory items would go here -->
+            
+            <!-- Spellbook Tab -->
+            <div class="tab-content" id="content3">
+                <div class="card">
+                    <h2>Spellbook</h2>
+                    <div class="spell-section">
+                        <h3 style="margin-bottom: 15px; color: var(--secondary);">Level 1 Spells</h3>
+                        <div class="spell-list">
+                            <div class="spell-card">
+                                <div class="spell-header">
+                                    <div class="spell-name">Cure Wounds</div>
+                                    <div class="spell-level">Level 1</div>
+                                </div>
+                                <div class="spell-info">
+                                    <div>Casting Time: 1 Action</div>
+                                    <div>Range: Touch</div>
+                                    <div>Components: V, S</div>
+                                    <div>Duration: Instantaneous</div>
+                                </div>
+                                <div class="spell-description">
+                                    A creature you touch regains a number of hit points equal to 1d8 + your spellcasting ability modifier.
+                                </div>
+                            </div>
+                            
+                            <div class="spell-card">
+                                <div class="spell-header">
+                                    <div class="spell-name">Shield of Faith</div>
+                                    <div class="spell-level">Level 1</div>
+                                </div>
+                                <div class="spell-info">
+                                    <div>Casting Time: 1 Bonus Action</div>
+                                    <div>Range: 60 feet</div>
+                                    <div>Components: V, S, M</div>
+                                    <div>Duration: Concentration, up to 10 minutes</div>
+                                </div>
+                                <div class="spell-description">
+                                    A shimmering field appears and surrounds a creature of your choice within range, granting it a +2 bonus to AC for the duration.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="spell-section">
+                        <h3 style="margin-bottom: 15px; color: var(--secondary);">Level 2 Spells</h3>
+                        <div class="spell-list">
+                            <div class="spell-card">
+                                <div class="spell-header">
+                                    <div class="spell-name">Lesser Restoration</div>
+                                    <div class="spell-level">Level 2</div>
+                                </div>
+                                <div class="spell-info">
+                                    <div>Casting Time: 1 Action</div>
+                                    <div>Range: Touch</div>
+                                    <div>Components: V, S</div>
+                                    <div>Duration: Instantaneous</div>
+                                </div>
+                                <div class="spell-description">
+                                    You touch a creature and can end either one disease or one condition afflicting it. The condition can be blinded, deafened, paralyzed, or poisoned.
+                                </div>
+                            </div>
+                            
+                            <div class="spell-card">
+                                <div class="spell-header">
+                                    <div class="spell-name">Magic Weapon</div>
+                                    <div class="spell-level">Level 2</div>
+                                </div>
+                                <div class="spell-info">
+                                    <div>Casting Time: 1 Bonus Action</div>
+                                    <div>Range: Touch</div>
+                                    <div>Components: V, S</div>
+                                    <div>Duration: Concentration, up to 1 hour</div>
+                                </div>
+                                <div class="spell-description">
+                                    You touch a nonmagical weapon. Until the spell ends, that weapon becomes a magic weapon with a +1 bonus to attack rolls and damage rolls.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <button class="add-item-btn">Add Item</button>
+            </div>
+            
+            <!-- Notes Tab -->
+            <div class="tab-content" id="content5">
+                <div class="card">
+                    <h2>Campaign Notes</h2>
+                    <div style="display: flex; gap: 15px; margin-bottom: 15px;">
+                        <button id="add-note-btn" class="btn">+ Add Note</button>
+                        <button id="clear-notes-btn" class="btn btn-danger">Clear All</button>
+                    </div>
+                    
+                    <div id="notes-container">
+                        <div class="note-item" style="background-color: rgba(114, 9, 183, 0.3); padding: 20px; border-radius: 15px; margin-bottom: 15px; position: relative; border-left: 4px solid var(--accent);">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                <h3>Meeting with the Blacksmith</h3>
+                                <div>
+                                    <span style="font-size: 0.8em; color: rgba(255, 255, 255, 0.6);">Session 4</span>
+                                    <button class="btn btn-small btn-danger" style="margin-left: 10px;">×</button>
+                                </div>
+                            </div>
+                            <p>Spoke with Gromir the blacksmith about repairing the ancient dwarvish shield. He needs rare materials from the mines to the north. Promised 250 gold upon completion.</p>
+                        </div>
+                        
+                        <div class="note-item" style="background-color: rgba(114, 9, 183, 0.3); padding: 20px; border-radius: 15px; margin-bottom: 15px; position: relative; border-left: 4px solid var(--info);">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                <h3>The Mysterious Map</h3>
+                                <div>
+                                    <span style="font-size: 0.8em; color: rgba(255, 255, 255, 0.6);">Session 3</span>
+                                    <button class="btn btn-small btn-danger" style="margin-left: 10px;">×</button>
+                                </div>
+                            </div>
+                            <p>Found a torn map in the abandoned library. It seems to point to a location in the Crystal Mountains. The symbols match those we saw in the ancient temple.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Note Form (hidden by default) -->
+                    <div id="note-form" style="background-color: rgba(36, 0, 70, 0.7); padding: 20px; border-radius: 15px; margin-top: 20px; display: none;">
+                        <h3 style="margin-bottom: 15px;">Add New Note</h3>
+                        <div class="input-group">
+                            <label class="input-label">Title</label>
+                            <input type="text" id="note-title" class="input-field">
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Session #</label>
+                            <input type="number" id="note-session" class="input-field" min="1" value="1">
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Content</label>
+                            <textarea id="note-content" class="input-field" style="min-height: 100px; resize: vertical;"></textarea>
+                        </div>
+                        <div style="display: flex; gap: 10px; margin-top: 15px;">
+                            <button id="save-note-btn" class="btn btn-success">Save Note</button>
+                            <button id="cancel-note-btn" class="btn">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Combat Tab -->
+            <div class="tab-content" id="content6">
+                <div class="card">
+                    <h2>Combat Tracker</h2>
+                    
+                    <div style="display: flex; gap: 15px; margin-bottom: 20px;">
+                        <button id="add-combatant-btn" class="btn">+ Add Combatant</button>
+                        <button id="next-turn-btn" class="btn btn-primary">Next Turn</button>
+                        <button id="reset-combat-btn" class="btn btn-danger">Reset Combat</button>
+                    </div>
+                    
+                    <div id="initiative-tracker" style="margin-bottom: 25px;">
+                        <div style="display: grid; grid-template-columns: 50px 1fr 120px 100px 80px; gap: 10px; background-color: rgba(36, 0, 70, 0.7); padding: 12px; border-radius: 10px 10px 0 0; font-weight: bold;">
+                            <div>Init</div>
+                            <div>Name</div>
+                            <div>HP</div>
+                            <div>Status</div>
+                            <div>Actions</div>
+                        </div>
+                        
+                        <!-- Active combatant with highlight -->
+                        <div class="combatant active" style="display: grid; grid-template-columns: 50px 1fr 120px 100px 80px; gap: 10px; background-color: rgba(254, 228, 64, 0.2); padding: 15px; border-left: 4px solid var(--accent);">
+                            <div style="font-weight: bold;">18</div>
+                            <div>Alyndra Stormheart</div>
+                            <div style="display: flex; align-items: center; gap: 5px;">
+                                <input type="number" class="input-field" value="42" style="width: 60px; text-align: center;">
+                                <span>/ 45</span>
+                            </div>
+                            <div>
+                                <select class="input-field">
+                                    <option>Normal</option>
+                                    <option>Poisoned</option>
+                                    <option>Stunned</option>
+                                    <option>Prone</option>
+                                </select>
+                            </div>
+                            <div>
+                                <button class="btn btn-small btn-danger">×</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Other combatants -->
+                        <div class="combatant" style="display: grid; grid-template-columns: 50px 1fr 120px 100px 80px; gap: 10px; background-color: rgba(114, 9, 183, 0.3); padding: 15px; border-left: 4px solid transparent;">
+                            <div style="font-weight: bold;">16</div>
+                            <div>Goblin Archer</div>
+                            <div style="display: flex; align-items: center; gap: 5px;">
+                                <input type="number" class="input-field" value="12" style="width: 60px; text-align: center;">
+                                <span>/ 15</span>
+                            </div>
+                            <div>
+                                <select class="input-field">
+                                    <option>Normal</option>
+                                    <option selected>Poisoned</option>
+                                    <option>Stunned</option>
+                                    <option>Prone</option>
+                                </select>
+                            </div>
+                            <div>
+                                <button class="btn btn-small btn-danger">×</button>
+                            </div>
+                        </div>
+                        
+                        <div class="combatant" style="display: grid; grid-template-columns: 50px 1fr 120px 100px 80px; gap: 10px; background-color: rgba(114, 9, 183, 0.3); padding: 15px; border-left: 4px solid transparent;">
+                            <div style="font-weight: bold;">14</div>
+                            <div>Orlen (Cleric)</div>
+                            <div style="display: flex; align-items: center; gap: 5px;">
+                                <input type="number" class="input-field" value="28" style="width: 60px; text-align: center;">
+                                <span>/ 32</span>
+                            </div>
+                            <div>
+                                <select class="input-field">
+                                    <option>Normal</option>
+                                    <option>Poisoned</option>
+                                    <option>Stunned</option>
+                                    <option>Prone</option>
+                                </select>
+                            </div>
+                            <div>
+                                <button class="btn btn-small btn-danger">×</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Add Combatant Form (hidden by default) -->
+                    <div id="combatant-form" style="background-color: rgba(36, 0, 70, 0.7); padding: 20px; border-radius: 15px; margin-top: 20px; display: none;">
+                        <h3 style="margin-bottom: 15px;">Add New Combatant</h3>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <div class="input-group">
+                                <label class="input-label">Name</label>
+                                <input type="text" id="combatant-name" class="input-field">
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label">Initiative</label>
+                                <input type="number" id="combatant-initiative" class="input-field" min="1" max="30" value="10">
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label">Current HP</label>
+                                <input type="number" id="combatant-hp" class="input-field" min="1" value="20">
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label">Max HP</label>
+                                <input type="number" id="combatant-maxhp" class="input-field" min="1" value="20">
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 10px; margin-top: 15px;">
+                            <button id="save-combatant-btn" class="btn btn-success">Add to Combat</button>
+                            <button id="cancel-combatant-btn" class="btn">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Inventory Tab -->
+            <div class="tab-content" id="content4">
+                <div class="card">
+                    <h2>Equipment & Inventory</h2>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <div class="input-group">
+                            <div class="input-label">Currency</div>
+                            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                                <div style="display: flex; flex-direction: column; align-items: center;">
+                                    <label>PP</label>
+                                    <input type="number" class="input-field" value="0" style="width: 60px; text-align: center;">
+                                </div>
+                                <div style="display: flex; flex-direction: column; align-items: center;">
+                                    <label>GP</label>
+                                    <input type="number" class="input-field" value="75" style="width: 60px; text-align: center;">
+                                </div>
+                                <div style="display: flex; flex-direction: column; align-items: center;">
+                                    <label>EP</label>
+                                    <input type="number" class="input-field" value="0" style="width: 60px; text-align: center;">
+                                </div>
+                                <div style="display: flex; flex-direction: column; align-items: center;">
+                                    <label>SP</label>
+                                    <input type="number" class="input-field" value="12" style="width: 60px; text-align: center;">
+                                </div>
+                                <div style="display: flex; flex-direction: column; align-items: center;">
+                                    <label>CP</label>
+                                    <input type="number" class="input-field" value="35" style="width: 60px; text-align: center;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 25px;">
+                        <h3 style="margin-bottom: 15px; color: var(--secondary);">Weapons</h3>
+                        <table style="width: 100%; border-collapse: separate; border-spacing: 0 10px;">
+                            <thead>
+                                <tr>
+                                    <th style="text-align: left; padding: 10px; background-color: rgba(36, 0, 70, 0.7); border-radius: 10px 0 0 10px;">Name</th>
+                                    <th style="text-align: center; padding: 10px; background-color: rgba(36, 0, 70, 0.7);">Attack Bonus</th>
+                                    <th style="text-align: center; padding: 10px; background-color: rgba(36, 0, 70, 0.7);">Damage</th>
+                                    <th style="text-align: center; padding: 10px; background-color: rgba(36, 0, 70, 0.7);">Type</th>
+                                    <th style="text-align: center; padding: 10px; background-color: rgba(36, 0, 70, 0.7); border-radius: 0 10px 10px 0;">Properties</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding: 15px; background-color: rgba(114, 9, 183, 0.3); border-radius: 10px 0 0 10px; border-left: 3px solid var(--primary);">Longsword +1</td>
+                                    <td style="padding: 15px; text-align: center; background-color: rgba(114, 9, 183, 0.3);">+7</td>
+                                    <td style="padding: 15px; text-align: center; background-color: rgba(114, 9, 183, 0.3);">1d8+4</td>
+                                    <td style="padding: 15px; text-align: center; background-color: rgba(114, 9, 183, 0.3);">Slashing</td>
+                                    <td style="padding: 15px; text-align: center; background-color: rgba(114, 9, 183, 0.3); border-radius: 0 10px 10px 0;">Versatile (1d10)</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 15px; background-color: rgba(114, 9, 183, 0.3); border-radius: 10px 0 0 10px; border-left: 3px solid var(--primary);">Javelin</td>
+                                    <td style="padding: 15px; text-align: center; background-color: rgba(114, 9, 183, 0.3);">+6</td>
+                                    <td style="padding: 15px; text-align: center; background-color: rgba(114, 9, 183, 0.3);">1d6+3</td>
+                                    <td style="padding: 15px; text-align: center; background-color: rgba(114, 9, 183, 0.3);">Piercing</td>
+                                    <td style="padding: 15px; text-align: center; background-color: rgba(114, 9, 183, 0.3); border-radius: 0 10px 10px 0;">Thrown (30/120)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div style="margin-bottom: 25px;">
+                        <h3 style="margin-bottom: 15px; color: var(--secondary);">Armor</h3>
+                        <table style="width: 100%; border-collapse: separate; border-spacing: 0 10px;">
+                            <thead>
+                                <tr>
+                                    <th style="text-align: left; padding: 10px; background-color: rgba(36, 0, 70, 0.7); border-radius: 10px 0 0 10px;">Name</th>
+                                    <th style="text-align: center; padding: 10px; background-color: rgba(36, 0, 70, 0.7);">AC</th>
+                                    <th style="text-align: center; padding: 10px; background-color: rgba(36, 0, 70, 0.7);">Type</th>
+                                    <th style="text-align: center; padding: 10px; background-color: rgba(36, 0, 70, 0.7); border-radius: 0 10px 10px 0;">Properties</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding: 15px; background-color: rgba(114, 9, 183, 0.3); border-radius: 10px 0 0 10px; border-left: 3px solid var(--primary);">Chain Mail</td>
+                                    <td style="padding: 15px; text-align: center; background-color: rgba(114, 9, 183, 0.3);">16</td>
+                                    <td style="padding: 15px; text-align: center; background-color: rgba(114, 9, 183, 0.3);">Heavy</td>
+                                    <td style="padding: 15px; text-align: center; background-color: rgba(114, 9, 183, 0.3); border-radius: 0 10px 10px 0;">Disadvantage on Stealth</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 15px; background-color: rgba(114, 9, 183, 0.3); border-radius: 10px 0 0 10px; border-left: 3px solid var(--primary);">Shield</td>
+                                    <td style="padding: 15px; text-align: center; background-color: rgba(114, 9, 183, 0.3);">+2</td>
+                                    <td style="padding: 15px; text-align: center; background-color: rgba(114, 9, 183, 0.3);">Shield</td>
+                                    <td style="padding: 15px; text-align: center; background-color: rgba(114, 9, 183, 0.3); border-radius: 0 10px 10px 0;">-</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div>
+                        <h3 style="margin-bottom: 15px; color: var(--secondary);">Items</h3>
+                        <div style="background-color: rgba(36, 0, 70, 0.5); padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                <input type="text" id="new-item-name" class="input-field" placeholder="Item name..." style="flex: 2; margin-right: 10px;">
+                                <input type="text" id="new-item-desc" class="input-field" placeholder="Description..." style="flex: 3; margin-right: 10px;">
+                                <input type="number" id="new-item-qty" class="input-field" value="1" min="1" style="width: 60px; text-align: center; margin-right: 10px;">
+                                <button id="add-item-btn" class="btn btn-small">Add</button>
+                            </div>
+                            
+                            <div id="inventory-items" style="max-height: 300px; overflow-y: auto;">
+                                <div class="inventory-item" style="background-color: rgba(114, 9, 183, 0.3); padding: 15px; border-radius: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+                                    <div>
+                                        <div style="font-weight: bold;">Potion of Healing</div>
+                                        <div style="font-size: 0.9em; color: rgba(255, 255, 255, 0.7);">Heals 2d4+2 hit points when consumed</div>
+                                    </div>
+                                    <div style="display: flex; gap: 10px; align-items: center;">
+                                        <input type="number" class="input-field" value="3" style="width: 60px; text-align: center;">
+                                        <button class="btn btn-small btn-danger item-delete">×</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="inventory-item" style="background-color: rgba(114, 9, 183, 0.3); padding: 15px; border-radius: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+                                    <div>
+                                        <div style="font-weight: bold;">Holy Symbol</div>
+                                        <div style="font-size: 0.9em; color: rgba(255, 255, 255, 0.7);">Spellcasting focus</div>
+                                    </div>
+                                    <div style="display: flex; gap: 10px; align-items: center;">
+                                        <input type="number" class="input-field" value="1" style="width: 60px; text-align: center;">
+                                        <button class="btn btn-small btn-danger item-delete">×</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="inventory-item" style="background-color: rgba(114, 9, 183, 0.3); padding: 15px; border-radius: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+                                    <div>
+                                        <div style="font-weight: bold;">Backpack</div>
+                                        <div style="font-size: 0.9em; color: rgba(255, 255, 255, 0.7);">Contains adventuring gear</div>
+                                    </div>
+                                    <div style="display: flex; gap: 10px; align-items: center;">
+                                        <input type="number" class="input-field" value="1" style="width: 60px; text-align: center;">
+                                        <button class="btn btn-small btn-danger item-delete">×</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="inventory-item" style="background-color: rgba(114, 9, 183, 0.3); padding: 15px; border-radius: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+                                    <div>
+                                        <div style="font-weight: bold;">Rations (days)</div>
+                                        <div style="font-size: 0.9em; color: rgba(255, 255, 255, 0.7);">Food for one day</div>
+                                    </div>
+                                    <div style="display: flex; gap: 10px; align-items: center;">
+                                        <input type="number" class="input-field" value="5" style="width: 60px; text-align: center;">
+                                        <button class="btn btn-small btn-danger item-delete">×</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-
-    <script>
-        // Tab switching functionality
-        function switchTab(tabName) {
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.style.display = 'none';
+    
+None) {
+                hpMinusBtn.addEventListener('click', function() {
+                    const amount = parseInt(hpInput.value) || 0;
+                    let currentHP = parseInt(hpCurrent.textContent) || 0;
+                    currentHP = Math.max(0, currentHP - amount);
+                    hpCurrent.textContent = currentHP;
+                    
+                    // Change color based on HP percentage
+                    const maxHP = parseInt(document.querySelector('.hp-max').textContent.substring(2)) || 0;
+                    const hpPercentage = (currentHP / maxHP) * 100;
+                    
+                    if (hpPercentage <= 25) {
+                        hpCurrent.style.color = 'var(--danger)';
+                    } else if (hpPercentage <= 50) {
+                        hpCurrent.style.color = 'var(--secondary)';
+                    } else {
+                        hpCurrent.style.color = 'var(--success)';
+                    }
+                });
+                
+                hpPlusBtn.addEventListener('click', function() {
+                    const amount = parseInt(hpInput.value) || 0;
+                    let currentHP = parseInt(hpCurrent.textContent) || 0;
+                    const maxHP = parseInt(document.querySelector('.hp-max').textContent.substring(2)) || 0;
+                    currentHP = Math.min(maxHP, currentHP + amount);
+                    hpCurrent.textContent = currentHP;
+                    
+                    // Change color based on HP percentage
+                    const hpPercentage = (currentHP / maxHP) * 100;
+                    
+                    if (hpPercentage <= 25) {
+                        hpCurrent.style.color = 'var(--danger)';
+                    } else if (hpPercentage <= 50) {
+                        hpCurrent.style.color = 'var(--secondary)';
+                    } else {
+                        hpCurrent.style.color = 'var(--success)';
+                    }
+                });
+            }
+            
+            // Add glowing effect to dice when hovering
+            const addGlowEffect = (elements) => {
+                elements.forEach(el => {
+                    el.addEventListener('mouseover', function() {
+                        this.style.boxShadow = `0 0 15px var(--accent)`;
+                    });
+                    
+                    el.addEventListener('mouseout', function() {
+                        this.style.boxShadow = '';
+                    });
+                });
+            };
+            
+            addGlowEffect(document.querySelectorAll('.dice-btn'));
+            addGlowEffect(document.querySelectorAll('.btn'));
+            
+            // Add highlight effect to ability scores
+            const abilityScores = document.querySelectorAll('.ability-score');
+            abilityScores.forEach(score => {
+                score.addEventListener('click', function() {
+                    const abilityName = this.querySelector('.ability-name').textContent;
+                    const abilityMod = this.querySelector('.ability-modifier').textContent;
+                    
+                    // Roll ability check when clicked
+                    const modValue = parseInt(abilityMod.replace('+', '').replace('-', '-')) || 0;
+                    const diceRoll = rollDice(20);
+                    const total = diceRoll + modValue;
+                    
+                    rollResult.textContent = `${abilityName} Check: ${total} (${diceRoll} ${modValue >= 0 ? '+' : ''}${modValue})`;
+                    rollResult.classList.add('active');
+                    
+                    setTimeout(() => {
+                        rollResult.classList.remove('active');
+                    }, 800);
+                });
             });
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            document.getElementById(tabName).style.display = 'block';
-            event.currentTarget.classList.add('active');
-        }
-
-        // Dice roller functionality
-        function rollDice(sides) {
-            const result = Math.floor(Math.random() * sides) + 1;
-            alert(`You rolled a ${result}!`);
-            // Add animation/visual feedback
-            const diceBtn = event.currentTarget;
-            diceBtn.style.transform = 'scale(1.2)';
-            setTimeout(() => {
-                diceBtn.style.transform = 'scale(1)';
-            }, 200);
-        }
-
-        // Inventory management functions
-        // Add your inventory management logic here
+        });
     </script>
 </body>
 </html>
